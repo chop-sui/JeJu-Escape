@@ -1,5 +1,3 @@
-// OO
-
 Function.prototype.member = function(name, value){
 	this.prototype[name] = value
 }
@@ -20,6 +18,7 @@ Game.handItem = function(){
 	return game.getHandItem()
 }
 
+
 //////// Room Definition
 
 function Room(name, background){
@@ -32,6 +31,7 @@ Room.member('setRoomLight', function(intensity){
 })
 
 //////// Object Definition
+
 function Object(room, name, image){
 	this.room = room
 	this.name = name
@@ -102,28 +102,41 @@ Object.member('isPicked', function(){
 	return this.id.isPicked()
 })
 
-///////
-function MoveRoom(room, name, image) {
-  this.room = room
-  this.name = name
+//////
+function MoveRoom(room, name, image, connectedTo) {
+  Object.call(this, room, name, image)
+
   this.image = image
+  this.connectedTo = connectedTo
 }
 
 MoveRoom.prototype = new Object()
 
-// 시장
-// market = game.createRoom("market", "시장 안.PNG")
-market = new Room("market", "시장 안.PNG")
+MoveRoom.member('onClick', function(){
+  Game.move(this.connectedTo)
+})
 
-// 이동
-/*
-market.move1 = market.createObject("move1", "콩나물 가게.png")
-market.move1.setWidth(150)
-market.locateObject(market.move1, 550, 500)
-*/
-market.move1 = new MoveRoom(market, "move1", "콩나물 가게.png")
+// 방 생성
+market = new Room('market', '시장 안.PNG') // 시장
+bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
+gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
+fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
+
+// 시장
+// 콩나물 가게 이동.
+market.move1 = new MoveRoom(market, 'move1', '콩나물 가게 이동.png', bean_shop)
 market.move1.resize(150)
-// market.move1.locate(550, 500)
+market.move1.locate(550, 500)
+
+// 갈치 식당 이동.
+market.move2 = new MoveRoom(market, 'move2', '갈치 식당 이동.png', fish_diner)
+market.move2.resize(150)
+market.move2.locate(730, 500)
+
+// 기념품 가게 이동.
+market.move3 = new MoveRoom(market, 'move3', '기념품 가게 이동.png', gift_shop)
+market.move3.resize(150)
+market.move3.locate(550, 600)
 
 
 // 게임 시작
