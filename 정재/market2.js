@@ -127,13 +127,13 @@ Item.member('isHanded', function(){
 	return Game.handItem() == this.id
 })
 
-// 방 생성
+///// 방 생성
 market = new Room('market', '시장 안.PNG') // 시장
 bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
 gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
 fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
 
-// 시장
+///// 시장
 // 콩나물 가게 이동.
 market.move1 = new MoveRoom(market, 'move1', '콩나물 가게 이동.png', bean_shop)
 market.move1.resize(150)
@@ -149,23 +149,38 @@ market.move3 = new MoveRoom(market, 'move3', '기념품 가게 이동.png', gift
 market.move3.resize(150)
 market.move3.locate(550, 600)
 
-// 콩나물 가게
+///// 콩나물 가게
 // 에어팟 생성
 bean_shop.airpods = new Item(bean_shop, 'airpods', '에어팟.png')
 bean_shop.airpods.resize(40)
 bean_shop.airpods.locate(500, 400)
 
-// 갈치 식당
+// 시장으로 이동.
+bean_shop.toMarket = new MoveRoom(bean_shop, 'toMarket', '화살표.png', market)
+bean_shop.toMarket.resize(70)
+bean_shop.toMarket.locate(217, 600)
+
+///// 갈치 식당
 // 식당 주인 생성
 fish_diner.owner = new Object(fish_diner, 'owner', '식당 주인.png')
 fish_diner.owner.resize(170)
 fish_diner.owner.locate(950, 270)
 
-// 기념품 가게
+// 시장으로 이동.
+fish_diner.toMarket = new MoveRoom(fish_diner, 'toMarket', '화살표.png', market)
+fish_diner.toMarket.resize(70)
+fish_diner.toMarket.locate(50, 350)
+
+///// 기념품 가게
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
 gift_shop.staff.resize(170)
 gift_shop.staff.locate(700, 500)
+
+// 시장으로 이동.
+gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
+gift_shop.toMarket.resize(70)
+gift_shop.toMarket.locate(150, 400)
 
 // 게임 시작
 Game.start(market, '')
