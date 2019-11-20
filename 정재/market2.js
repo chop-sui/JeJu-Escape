@@ -18,9 +18,7 @@ Game.handItem = function(){
 	return game.getHandItem()
 }
 
-
 //////// Room Definition
-
 function Room(name, background){
 	this.name = name
 	this.background = background
@@ -31,7 +29,6 @@ Room.member('setRoomLight', function(intensity){
 })
 
 //////// Object Definition
-
 function Object(room, name, image){
 	this.room = room
 	this.name = name
@@ -102,7 +99,7 @@ Object.member('isPicked', function(){
 	return this.id.isPicked()
 })
 
-//////
+////// MoveRoom Definition
 function MoveRoom(room, name, image, connectedTo) {
   Object.call(this, room, name, image)
 
@@ -114,6 +111,20 @@ MoveRoom.prototype = new Object()
 
 MoveRoom.member('onClick', function(){
   Game.move(this.connectedTo)
+})
+
+/////// Item Definition
+function Item(room, name, image){
+	Object.call(this, room, name, image)
+}
+// inherited from Object
+Item.prototype = new Object()
+
+Item.member('onClick', function(){
+	this.id.pick()
+})
+Item.member('isHanded', function(){
+	return Game.handItem() == this.id
 })
 
 // 방 생성
@@ -138,6 +149,23 @@ market.move3 = new MoveRoom(market, 'move3', '기념품 가게 이동.png', gift
 market.move3.resize(150)
 market.move3.locate(550, 600)
 
+// 콩나물 가게
+// 에어팟 생성
+bean_shop.airpods = new Item(bean_shop, 'airpods', '에어팟.png')
+bean_shop.airpods.resize(40)
+bean_shop.airpods.locate(500, 400)
+
+// 갈치 식당
+// 식당 주인 생성
+fish_diner.owner = new Object(fish_diner, 'owner', '식당 주인.png')
+fish_diner.owner.resize(170)
+fish_diner.owner.locate(950, 270)
+
+// 기념품 가게
+// 직원 생성
+gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
+gift_shop.staff.resize(170)
+gift_shop.staff.locate(700, 500)
 
 // 게임 시작
 Game.start(market, '')
