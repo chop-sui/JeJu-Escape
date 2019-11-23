@@ -103,7 +103,7 @@ Object.member('isPicked', function(){
 function MoveRoom(room, name, image, connectedTo) {
   Object.call(this, room, name, image)
 
-  this.image = image
+  // this.image = image
   this.connectedTo = connectedTo
 }
 
@@ -111,6 +111,21 @@ MoveRoom.prototype = new Object()
 
 MoveRoom.member('onClick', function(){
   Game.move(this.connectedTo)
+})
+
+///// MoveRoom_Print Definition
+function MoveRoom_Print(room, name, image, connectedTo, message) {
+	MoveRoom.call(this, room, name, image, connectedTo)
+
+	this.message = message
+
+}
+
+MoveRoom_Print.prototype = new MoveRoom()
+
+MoveRoom_Print.member('onClick', function() {
+	Game.move(this.connectedTo)
+	printMessage(this.message)
 })
 
 /////// Item Definition
@@ -127,6 +142,17 @@ Item.member('isHanded', function(){
 	return Game.handItem() == this.id
 })
 
+///// Conversation Definition
+function Conversation(room, name, image) {
+	Object.call(this, room, name, image)
+}
+
+Conversation.prototype = new Object()
+
+Conversation.member('onClick', function() {
+  this.id.hide()
+})
+
 ///// 방 생성
 market = new Room('market', '시장 안.PNG') // 시장
 bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
@@ -135,7 +161,7 @@ fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
 
 ///// 시장
 // 콩나물 가게 이동.
-market.move1 = new MoveRoom(market, 'move1', '콩나물 가게 이동.png', bean_shop)
+market.move1 = new MoveRoom_Print(market, 'move1', '콩나물 가게 이동.png', bean_shop, 'GPS 상으론 여기에 에어팟이 있다고 나오는데...?')
 market.move1.resize(150)
 market.move1.locate(550, 500)
 
