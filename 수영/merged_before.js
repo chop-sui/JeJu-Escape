@@ -195,7 +195,9 @@ gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
 fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
 ground = new Room('ground', '집마당.png')
 olle_ent1 = new Room('olle_ent1', '올래입구.png')
+olle_ent2 = new Room('olle_ent2', '올래입구.png')
 laundry = new Room('laundry', '욕실타일.png')
+airport = new Room('airport', '공항.png')
 
 
 
@@ -259,7 +261,7 @@ ground.car=new MoveRoom_Print(ground, 'car', '자동차.png',olle_ent1,'올래�
 ground.car.resize(350)
 ground.car.locate(380,630)
 
-///// 올래 시장
+///// 올래 시장(들어갈때)
 olle_ent1.ent=new MoveRoom_Print(olle_ent1, 'ent', '올래간판.png',market,"시장 안으로 들어왔다")
 olle_ent1.ent.resize(1200)
 olle_ent1.ent.locate(680,370)
@@ -269,6 +271,17 @@ olle_ent1.car=new MoveRoom_Print(olle_ent1, 'car', '자동차.png',ground,"집�
 olle_ent1.car.resize(550)
 olle_ent1.car.locate(900,630)
 
+
+
+///// 올래 시장(나갈때)
+olle_ent2.ent=new MoveRoom_Print(olle_ent2, 'ent', '올래간판.png',market,"시장 안으로 들어왔다")
+olle_ent2.ent.resize(1200)
+olle_ent2.ent.locate(680,370)
+
+
+olle_ent2.car=new MoveRoom_Print(olle_ent1, 'car', '자동차.png',airport,"공항으로 왔다!")
+olle_ent2.car.resize(550)
+olle_ent2.car.locate(900,630)
 
 
 
