@@ -198,8 +198,33 @@ olle_ent1 = new Room('olle_ent1', '올래입구.png')
 olle_ent2 = new Room('olle_ent2', '올래입구.png')
 laundry = new Room('laundry', '욕실타일.png')
 airport = new Room('airport', '공항.png')
+f_room=new Room('f_room','f_room.png')
 
 
+
+//////////////f_room 
+
+//제니사진
+f_room.picture = new Object(f_room, 'picture', '액자사진.png')
+f_room.picture.resize(70)
+f_room.picture.locate(250, 300)
+f_room.picture.onClick = function() {
+	printMessage('제니 사진이 있다..')
+}
+
+//달력
+f_room.calender = new Object(f_room, 'calender', '달력.png')
+f_room.calender.resize(100)
+f_room.calender.locate(900, 300)
+f_room.calender.onClick = function() {
+    showImageViewer("달력_확대.png")
+}
+
+
+//문
+f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', laundry)
+f_room.door.resize(150)
+f_room.door.locate(370, 370)
 
 
 
@@ -299,7 +324,6 @@ airport.crew.locate(1060, 420)
 
 airport.crew.onClick = function(){ 
     if(airport.passport.isHanded()){    
-       // printMessage('세탁기에서 지갑을 찾았다!')}
         Game.end()}
     else{
         printMessage('여권을 들고오세요^^')
@@ -359,15 +383,41 @@ fish_diner.toMarket.resize(70)
 fish_diner.toMarket.locate(50, 350)
 
 ///// 기념품 가게
+
+
+//핸드폰 - 직원에서 조건문도 변경
+gift_shop.phone=new Item(gift_shop, 'phone', '핸드폰.png')
+gift_shop.phone.resize(100)
+gift_shop.phone.locate(300, 350)
+
+
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
 gift_shop.staff.resize(170)
 gift_shop.staff.locate(700, 500)
+
+
+gift_shop.staff.onClick = function(){ 
+    if(gift_shop.phone.isHanded()){    
+        printMessage('잘 됨')
+    }
+    else{
+        printMessage('!@#$%^&*(*&^%$#@#$%^&*(&^ (알아들을 수 없는 제주도사투리)')
+    }
+}
+
+
+
+
+
+
 
 // 시장으로 이동.
 gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
 gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
 
+
+
 // 게임 시작
-Game.start(airport, '')
+Game.start(gift_shop, '')
