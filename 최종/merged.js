@@ -144,8 +144,11 @@ Item.member('isHanded', function(){
 ///// Conversation Definition
 function Conversation(room, name, image) {
 	Object.call(this, room, name, image)
+<<<<<<< HEAD
+=======
 
 	this.id.hide()
+>>>>>>> master
 }
 
 Conversation.prototype = new Object()
@@ -154,6 +157,8 @@ Conversation.member('onClick', function() {
   this.id.hide()
 })
 
+<<<<<<< HEAD
+=======
 //////// Keypad Definition
 function Keypad(room, name, image, password, callback, type){
 	Object.call(this, room, name, image)
@@ -202,6 +207,7 @@ Door.member('onClose', function(){
 	this.id.setSprite(this.closedImage)
 })
 
+>>>>>>> master
 ///// 방 생성
 market = new Room('market', '시장 안.PNG') // 시장
 bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
@@ -209,9 +215,13 @@ gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
 fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
 ground = new Room('ground', '집마당.png')
 olle_ent1 = new Room('olle_ent1', '올래입구.png')
+<<<<<<< HEAD
+laundry = new Room('laundry', '욕실타일.png')
+=======
 olle_ent2 = new Room('olle_ent2', '올래입구.png')
 laundry = new Room('laundry', '욕실타일.png')
 airport = new Room('airport', '공항.png')
+>>>>>>> master
 
 ///// 세탁실
 //문
@@ -219,6 +229,18 @@ laundry.door = new Door(laundry, 'door', '방문_닫.png', '방문_열.png', gro
 laundry.door.resize(230)
 laundry.door.locate(350, 380)
 
+<<<<<<< HEAD
+
+//지갑
+laundry.wallet = new Item(laundry, 'wallet', '지갑_닫.png')
+laundry.wallet.resize(100)
+laundry.wallet.locate(800, 650)
+laundry.wallet.hide()
+
+
+//세탁기
+laundry.washer = new Object(laundry, 'washer', '세탁기_열.png')
+=======
 //망치 - 세탁기에서 조건문도 변경
 laundry.hammer=new Item(laundry, 'hammer', '망치.png')
 laundry.hammer.resize(100)
@@ -226,10 +248,17 @@ laundry.hammer.locate(300, 350)
 
 //세탁기
 laundry.washer = new Object(laundry, 'washer', '세탁기_닫.png')
+>>>>>>> master
 laundry.washer.resize(300)
 laundry.washer.locate(960, 460)
 
 laundry.washer.onClick = function(){
+<<<<<<< HEAD
+    laundry.wallet.show()
+    printMessage('세탁기에서 지갑을 찾았다!')
+}
+
+=======
     if(laundry.hammer.isHanded()){
         laundry.wallet.show()
         laundry.washer.setSprite("세탁기_열.png")
@@ -247,6 +276,7 @@ laundry.wallet.hide()
 laundry.wallet.setDescription('기념품을 산 영수증이 들어있네..!')
 
 
+>>>>>>> master
 ///// 마당
 ground.house=new MoveRoom_Print(ground, 'house', '집.png',laundry,'집으로 다시 들어왔다.')
 ground.house.resize(850)
@@ -256,7 +286,11 @@ ground.car=new MoveRoom_Print(ground, 'car', '자동차.png',olle_ent1,'올래�
 ground.car.resize(350)
 ground.car.locate(380,630)
 
+<<<<<<< HEAD
+///// 올래 시장
+=======
 ///// 올래 시장(들어갈때)
+>>>>>>> master
 olle_ent1.ent=new MoveRoom_Print(olle_ent1, 'ent', '올래간판.png',market,"시장 안으로 들어왔다")
 olle_ent1.ent.resize(1200)
 olle_ent1.ent.locate(680,370)
@@ -266,6 +300,8 @@ olle_ent1.car=new MoveRoom_Print(olle_ent1, 'car', '자동차.png',ground,"집�
 olle_ent1.car.resize(550)
 olle_ent1.car.locate(900,630)
 
+<<<<<<< HEAD
+=======
 
 
 ///// 올래 시장(나갈때)
@@ -279,6 +315,7 @@ olle_ent2.car.resize(550)
 olle_ent2.car.locate(900,630)
 
 
+>>>>>>> master
 ///// 시장
 // 콩나물 가게 이동.
 market.move1 = new MoveRoom_Print(market, 'move1', '콩나물 가게 이동.png', bean_shop, 'GPS 상으론 여기에 에어팟이 있다고 나오는데...?')
@@ -296,7 +333,11 @@ market.move3.resize(150)
 market.move3.locate(550, 600)
 
 // 시장 입구로 이동.
+<<<<<<< HEAD
+market.move4 = new MoveRoom(market, 'move4', '시장 입구 이동.png', olle_ent1)
+=======
 market.move4 = new MoveRoom(market, 'move4', '시장 입구 이동.png', olle_ent2)
+>>>>>>> master
 market.move4.resize(150)
 market.move4.locate(730, 600)
 
@@ -317,6 +358,10 @@ fish_diner.owner = new Object(fish_diner, 'owner', '식당 주인.png')
 fish_diner.owner.resize(170)
 fish_diner.owner.locate(950, 270)
 
+<<<<<<< HEAD
+fish_diner.owner.onClick = function() {
+	printMessage('ㅇㅇ')
+=======
 // 대화 상자1 생성
 fish_diner.conv1 = new Conversation(fish_diner, 'conv1', '식당 주인 대화1.png')
 fish_diner.conv1.resize(1280)
@@ -347,6 +392,7 @@ fish_diner.conv1.onClick = function() {
   fish_diner.conv1.hide()
   fish_diner.answer1.show()
   showImageViewer("퀴즈1.png", "")
+>>>>>>> master
 }
 
 // 시장으로 이동.
