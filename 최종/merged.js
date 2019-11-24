@@ -144,6 +144,8 @@ Item.member('isHanded', function(){
 ///// Conversation Definition
 function Conversation(room, name, image) {
 	Object.call(this, room, name, image)
+
+	this.id.hide()
 }
 
 Conversation.prototype = new Object()
