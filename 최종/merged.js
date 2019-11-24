@@ -157,6 +157,52 @@ market = new Room('market', '시장 안.PNG') // 시장
 bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
 gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
 fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
+ground = new Room('ground', '집마당.png')
+olle_ent1 = new Room('olle_ent1', '올래입구.png')
+laundry = new Room('laundry', '욕실타일.png')
+
+///// 세탁실
+//문
+laundry.door = new Door(laundry, 'door', '방문_닫.png', '방문_열.png', ground)
+laundry.door.resize(230)
+laundry.door.locate(350, 380)
+
+
+//지갑
+laundry.wallet = new Item(laundry, 'wallet', '지갑_닫.png')
+laundry.wallet.resize(100)
+laundry.wallet.locate(800, 650)
+laundry.wallet.hide()
+
+
+//세탁기
+laundry.washer = new Object(laundry, 'washer', '세탁기_열.png')
+laundry.washer.resize(300)
+laundry.washer.locate(960, 460)
+
+laundry.washer.onClick = function(){
+    laundry.wallet.show()
+    printMessage('세탁기에서 지갑을 찾았다!')
+}
+
+///// 마당
+ground.house=new MoveRoom_Print(ground, 'house', '집.png',laundry,'집으로 다시 들어왔다.')
+ground.house.resize(850)
+ground.house.locate(680,355)
+
+ground.car=new MoveRoom_Print(ground, 'car', '자동차.png',olle_ent1,'올래시장으로 왔다!')
+ground.car.resize(350)
+ground.car.locate(380,630)
+
+///// 올래 시장
+olle_ent1.ent=new MoveRoom_Print(olle_ent1, 'ent', '올래간판.png',market,"시장 안으로 들어왔다")
+olle_ent1.ent.resize(1200)
+olle_ent1.ent.locate(680,370)
+
+
+olle_ent1.car=new MoveRoom_Print(olle_ent1, 'car', '자동차.png',ground,"집으로 왔다!")
+olle_ent1.car.resize(550)
+olle_ent1.car.locate(900,630)
 
 ///// 시장
 // 콩나물 가게 이동.
@@ -173,6 +219,11 @@ market.move2.locate(730, 500)
 market.move3 = new MoveRoom(market, 'move3', '기념품 가게 이동.png', gift_shop)
 market.move3.resize(150)
 market.move3.locate(550, 600)
+
+// 시장 입구로 이동.
+market.move4 = new MoveRoom(market, 'move4', '시장 입구 이동.png', olle_ent1)
+market.move4.resize(150)
+market.move4.locate(730, 600)
 
 ///// 콩나물 가게
 // 에어팟 생성
@@ -212,4 +263,4 @@ gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
 
 // 게임 시작
-Game.start(market, '')
+Game.start(olle_ent1, '')
