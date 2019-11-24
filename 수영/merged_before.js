@@ -269,7 +269,11 @@ olle_ent1.ent.locate(680,370)
 
 olle_ent1.car=new MoveRoom_Print(olle_ent1, 'car', '자동차.png',ground,"집으로 왔다!")
 olle_ent1.car.resize(550)
+<<<<<<< HEAD
 //olle_ent1.car.locate(900,630)
+=======
+olle_ent1.car.locate(900,630)
+>>>>>>> master
 
 
 
@@ -279,13 +283,18 @@ olle_ent2.ent.resize(1200)
 olle_ent2.ent.locate(680,370)
 
 
+<<<<<<< HEAD
 olle_ent2.car=new MoveRoom_Print(olle_ent2, 'car', '자동차.png',airport,"공항으로 왔다!")
+=======
+olle_ent2.car=new MoveRoom_Print(olle_ent1, 'car', '자동차.png',airport,"공항으로 왔다!")
+>>>>>>> master
 olle_ent2.car.resize(550)
 olle_ent2.car.locate(900,630)
 
 
 
 
+<<<<<<< HEAD
 ////공항
 //여권 - 승무원 조건문 변경
 airport.passport=new Item(airport,'passport','여권.jpg')
@@ -309,6 +318,8 @@ airport.crew.onClick = function(){
 
 
 
+=======
+>>>>>>> master
 
 
 ///// 시장
@@ -370,4 +381,8 @@ gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
 
 // 게임 시작
+<<<<<<< HEAD
 Game.start(airport, '')
+=======
+Game.start(olle_ent1, '')
+>>>>>>> master
