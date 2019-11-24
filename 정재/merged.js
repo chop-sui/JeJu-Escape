@@ -317,25 +317,50 @@ fish_diner.owner = new Object(fish_diner, 'owner', '식당 주인.png')
 fish_diner.owner.resize(170)
 fish_diner.owner.locate(950, 270)
 
+// 집 갔다온 주인.
+fish_diner.owner2 = new Object(fish_diner, 'owner2', '식당 주인.png')
+fish_diner.owner2.resize(170)
+fish_diner.owner2.locate(950, 270)
+fish_diner.owner2.hide()
+
+// 여권 생성
+fish_diner.passport = new Item(fish_diner, 'passport', '여권.jpg')
+fish_diner.passport.resize(30)
+fish_diner.passport.locate(1000, 285)
+fish_diner.passport.hide()
+
 // 대화 상자1 생성
 fish_diner.conv1 = new Conversation(fish_diner, 'conv1', '식당 주인 대화1.png')
 fish_diner.conv1.resize(1280)
 fish_diner.conv1.locate(640, 600)
 
 // 퀴즈1 정답 키패드 생성
-fish_diner.answer1 = new Keypad(fish_diner, 'answer1', '퀴즈1.png', '709', function(){
-  printMessage('맞아맞아 709호였지 금방 다녀올게 아이패드로 퀴즈라도 풀고 있어~')
+fish_diner.quiz1 = new Keypad(fish_diner, 'quiz1', '퀴즈1.png', '709', function(){
+  // printMessage('맞아맞아 709호였지 금방 다녀올게 아이패드로 퀴즈라도 풀고 있어~')
+  printMessage('맞아맞아 709호였지 금방 다녀올게 퀴즈라도 풀고 있어~')
   fish_diner.owner.hide()
-  fish_diner.answer1.hide()
-  fish_diner.ipad.show()
+  fish_diner.quiz1.hide()
+  // fish_diner.ipad.show()
+  fish_diner.quiz2.show()
 }, 'telephone')
-fish_diner.answer1.resize(500)
-fish_diner.answer1.locate(600,400)
-fish_diner.answer1.hide()
+fish_diner.quiz1.resize(500)
+fish_diner.quiz1.locate(600,400)
+fish_diner.quiz1.hide()
 
-// 아이패드 생성
+/*// 아이패드 생성
 fish_diner.ipad = new Object(fish_diner, 'ipad', '아이패드.png')
-fish_diner.ipad.hide()
+fish_diner.ipad.hide()*/
+
+// 퀴즈2 생성
+fish_diner.quiz2 = new Keypad(fish_diner, 'quiz2', '퀴즈2.png', '4848', function(){
+  fish_diner.owner2.show()
+  fish_diner.quiz2.hide()
+  printMessage('미안해 내가 쫌 늦었지~ 여권 가지고 왔어!')
+  fish_diner.passport.show()
+}, 'number')
+fish_diner.quiz2.resize(600)
+fish_diner.quiz2.locate(600,400)
+fish_diner.quiz2.hide()
 
 // 대화
 // 주인 누르면 대화 상자 show.
@@ -345,7 +370,7 @@ fish_diner.owner.onClick = function() {
 
 fish_diner.conv1.onClick = function() {
   fish_diner.conv1.hide()
-  fish_diner.answer1.show()
+  fish_diner.quiz1.show()
   showImageViewer("퀴즈1.png", "")
 }
 
