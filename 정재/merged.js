@@ -380,10 +380,24 @@ fish_diner.toMarket.resize(70)
 fish_diner.toMarket.locate(50, 350)
 
 ///// 기념품 가게
+//핸드폰 - 직원에서 조건문도 변경
+gift_shop.phone=new Item(gift_shop, 'phone', '핸드폰.png')
+gift_shop.phone.resize(100)
+gift_shop.phone.locate(300, 350)
+
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
 gift_shop.staff.resize(170)
 gift_shop.staff.locate(700, 500)
+
+gift_shop.staff.onClick = function(){
+    if(gift_shop.phone.isHanded()){
+        printMessage('잘 됨')
+    }
+    else{
+        printMessage('!@#$%^&*(*&^%$#@#$%^&*(&^ (알아들을 수 없는 제주도사투리. 핸드폰에 번역기가 있던 것 같던데...)')
+    }
+}
 
 // 시장으로 이동.
 gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
