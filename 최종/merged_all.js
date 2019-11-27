@@ -276,6 +276,16 @@ Door.member('onClose', function(){
     this.id.setSprite(this.closedImage)
 })
  
+
+//////// DoorLock Definition
+function DoorLock(room, name, image, password, door, type, message){
+    Keypad.call(this, room, name, image, password, function(){
+       printMessage(message)
+       door.unlock()
+    }, type)
+ }
+ // inherited from Object
+ DoorLock.prototype = new Keypad()
  
  
  
@@ -377,6 +387,7 @@ room1_mainview.keypad1_closed.onClick = function(){
 	Game.move(room1_sidetableview)
 }
 
+
 room1_sidetableview.sidetable = new Sidetable(room1_sidetableview, 'sidetable', 'sidetable2_closed.png', 'sidetable2_opened.png')
 room1_sidetableview.sidetable.resize(400)
 room1_sidetableview.sidetable.locate(300, 300)
@@ -399,7 +410,7 @@ room1_sidetableview.sidetable.onClick = function(){
 	}
 }
 
-room1_sidetableview.keypad2_closed = new DoorLock(room1_sidetableview, 'keypad2_closed', 'keypad2_closed.png', '1111', room1_sidetableview.sidetable, '철커덕')
+room1_sidetableview.keypad2_closed = new DoorLock(room1_sidetableview, 'keypad2_closed', 'keypad2_closed.png', '1111', room1_sidetableview.sidetable, 'number', '철커덕')
 room1_sidetableview.keypad2_closed.resize(150)
 room1_sidetableview.keypad2_closed.locate(415, 283)
 
@@ -412,7 +423,10 @@ room1_sidetableview.phone.onClick = function(){
 	printMessage('엥? 내 휴대폰이 왜 여기에 있지?')
 	this.id.pick()
 }
-room1_sidetableview.phone.setDescription("밧데리가 없어서 안켜진다.. 충전기를 찾아봐야겠어")
+
+
+
+
 
 room1_sidetableview.leftarrow = new MoveRoom(room1_sidetableview, 'leftarrow', 'arrow_left.png', room1_mainview)
 room1_sidetableview.leftarrow.resize(120)
@@ -554,6 +568,11 @@ f_room.door.locate(370, 370)
 
 
 //////빈방 
+//문
+room2.door_to_hallway = new MoveRoom(room2, 'door_to_hallway', '문-우-열림.png', hallway)
+room2.door_to_hallway.resize(120)
+room2.door_to_hallway.locate(1100,310)
+
 room2.bad = new Object(room2, 'bad', '침대-2.png')
 room2.bad.resize(400)
 room2.bad.locate(550,400)
@@ -561,10 +580,6 @@ room2.bad.locate(550,400)
 room2.picture = new Object(room2, 'picture', '액자.png')
 room2.picture.resize(600)
 room2.picture.locate(150, 200)
-
-room2.door_to_hallway = new MoveRoom(room2, 'door_to_hallway', '문-우-열림.png', hallway)
-room2.door_to_hallway.resize(120)
-room2.door_to_hallway.locate(1100,310)
 
 room2.table = new Object(room2, 'table', '테이블-왼쪽.png')
 room2.table.resize(250)
@@ -577,6 +592,18 @@ room2.chair.locate(250,450)
 room2.hanger = new Object(room2, 'hanger', '행거.png')
 room2.hanger.resize(250)
 room2.hanger.locate(650,200)
+
+room2.G1 = new Object(room2, 'G1', '귤1.png')
+room2.G1.resize(200)
+room2.G1.locate(150, 330)
+
+room2.G2 = new Object(room2, 'G2', '귤2.png')
+room2.G2.resize(50)
+room2.G2.locate(215, 330)
+
+room2.G3 = new Object(room2, 'G3', '귤3.png')
+room2.G3.resize(150)
+room2.G3.locate(250, 310)
 
 
 
@@ -707,10 +734,10 @@ olle_ent2.ent.locate(680,370)
 
 //자동차(공항)
 olle_ent2.car=new Object(olle_ent2,'car','자동차.png')
-olle_ent1.car.resize(550)
-olle_ent1.car.locate(900,630)
+olle_ent2.car.resize(550)
+olle_ent2.car.locate(900,630)
 
-olle_ent1.car.onClick = function(){
+olle_ent2.car.onClick = function(){
     if(f_room.carkey.isHanded()){
         Game.move(airport)}
     else{
@@ -838,10 +865,7 @@ fish_diner.toMarket.locate(50, 350)
 
 
 ///// 기념품 가게
-//핸드폰 - 직원에서 조건문도 변경
-gift_shop.phone=new Item(gift_shop, 'phone', '핸드폰.png')
-gift_shop.phone.resize(100)
-gift_shop.phone.locate(300, 350)
+
  
 
 // 직원 생성
@@ -863,7 +887,7 @@ gift_shop.conv2 = new Conversation(gift_shop, 'conv2', '기념품 가게 대화2
 gift_shop.conv3 = new Conversation(gift_shop, 'conv3', '기념품 가게 대화3.png')
  
 gift_shop.staff.onClick = function(){
-    if(gift_shop.phone.isHanded()){
+    if(room1_sidetableview.phone.isHanded()){
         gift_shop.conv1.show()
     }
     else{
@@ -887,6 +911,13 @@ gift_shop.conv2.onClick = function() {
 gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
 gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
+
+
+
+
+
+
+
 
 // =======================================================================================================================
 ///////// Airport
