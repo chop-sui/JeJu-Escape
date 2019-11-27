@@ -244,6 +244,16 @@ function Keypad(room, name, image, password, callback, type){
     showKeypad(this.type, this.password, this.callback)
 })
 
+//////// DoorLock Definition
+function DoorLock(room, name, image, password, door, type, message){
+	Keypad.call(this, room, name, image, password, function(){
+		printMessage(message)
+		door.unlock()
+	}, type)
+}
+// inherited from Object
+DoorLock.prototype = new Keypad()
+
 //////// Door Definition
 function Door(room, name, closedImage, openedImage, connectedTo){
     Object.call(this, room, name, closedImage)
@@ -399,7 +409,7 @@ room1_sidetableview.sidetable.onClick = function(){
 	}
 }
 
-room1_sidetableview.keypad2_closed = new DoorLock(room1_sidetableview, 'keypad2_closed', 'keypad2_closed.png', '1111', room1_sidetableview.sidetable, '철커덕')
+room1_sidetableview.keypad2_closed = new DoorLock(room1_sidetableview, 'keypad2_closed', 'keypad2_closed.png', '1111', room1_sidetableview.sidetable, 'number', '철커덕')
 room1_sidetableview.keypad2_closed.resize(150)
 room1_sidetableview.keypad2_closed.locate(415, 283)
 
