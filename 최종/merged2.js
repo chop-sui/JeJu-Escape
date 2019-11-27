@@ -50,6 +50,7 @@ Object.member('resize', function(width){
 Object.member('setDescription', function(description){
    this.id.setItemDescription(description)
 })
+
 Object.member('getX', function(){
    return this.id.getX()
 })
@@ -101,6 +102,7 @@ Object.member('isPicked', function(){
 function MoveRoom(room, name, image, connectedTo) {
   Object.call(this, room, name, image)
 
+  // this.image = image
   this.connectedTo = connectedTo
 }
 
@@ -202,16 +204,110 @@ Door.member('onClose', function(){
    this.id.setSprite(this.closedImage)
 })
 
-///// 방 생성
+
+
+
+
+
+// =======================================================================================================================
+///////// Make Room
+//집
+hallway = new Room('hallway', '복도1.png') // 2층복도
+room2 = new Room('room2', '배경-1.png') //빈방
+living_room = new Room('living_room', '거실-4.png')// 1층 거실
+laundry = new Room('laundry', '욕실타일.png') // 세탁실
+ground = new Room('ground', '집마당.png') // 마당
+
+
+
+//시장
+olle_ent1 = new Room('olle_ent1', '올래입구.png') // 집-시장 연결
 market = new Room('market', '시장 안.PNG') // 시장
 bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
 gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
 fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
-ground = new Room('ground', '집마당.png')
-olle_ent1 = new Room('olle_ent1', '올래입구.png')
-olle_ent2 = new Room('olle_ent2', '올래입구.png')
-laundry = new Room('laundry', '욕실타일.png')
+olle_ent2 = new Room('olle_ent2', '올래입구.png') // 시장-공항 연결
+
+//공항
 airport = new Room('airport', '공항.png')
+
+
+
+
+
+
+
+
+
+
+
+// =======================================================================================================================
+///////// House
+
+///// 2층 복도
+hallway.item1 = new MoveRoom_Print(hallway, 'item1', '우도.png', room2, '우도방으로 들어왔다.')
+hallway.item1.resize(200)
+hallway.item1.locate(330,300)
+
+
+hallway.item2 = new MoveRoom_Print(hallway, 'item2', '한라산.png', room2, '한라산방으로 들어왔다.')
+hallway.item2.resize(200)
+hallway.item2.locate(1000, 300)
+
+
+hallway.item3 = new MoveRoom_Print(hallway, 'item3', '협재.png', room2, '협재방으로 들어왔다! 그런데 여기는 빈방이네...')
+hallway.item3.resize(150)
+hallway.item3.locate(500,300)
+
+hallway.item4 = new MoveRoom(hallway, 'item4', '1층화살표.png', living_room)
+hallway.item4.resize(100)
+hallway.item4.locate(150, 300)
+
+
+
+
+
+
+////// 1층 거실
+// 소주,생선
+living_room.item1 = new Object(living_room, 'item1', '소주+생선.png')
+living_room.item1.resize(300)
+living_room.item1.locate(730, 540)
+living_room.item1.onClick = function()
+{
+    printMessage('어제 갈치를 먹었나...')
+}
+
+// 쓰레기
+living_room.item2 = new Object(living_room, 'item2', '쓰레기.png')
+living_room.item2.resize(40)
+living_room.item2.locate(450, 600)
+living_room.item2.onClick = function()
+{
+    printMessage('왠 종이냐...')
+}
+
+// 2층 아이콘
+living_room.floor = new MoveRoom_Print(living_room, 'floor', '2층아이콘.png', hallway, '2층으로 올라왔다..!')
+living_room.floor.resize(300)
+living_room.floor.locate(70,650)
+
+// 마당 아이콘
+living_room.yard = new MoveRoom_Print(living_room, 'yard', '마당아이콘.png', ground, '마당으로 나왔다..!')
+living_room.yard.resize(300)
+living_room.yard.locate(600, 650)
+
+//세탁실 아이콘
+living_room.laundry = new MoveRoom_Print(living_room, 'laundry', '세탁실아이콘.png', laundry, '세탁실로 들어왔다..!')
+living_room.laundry.resize(300)
+living_room.laundry.locate(1130, 650)
+
+
+
+
+
+
+
 
 ///// 세탁실
 //문
@@ -247,6 +343,14 @@ laundry.wallet.hide()
 laundry.wallet.setDescription('기념품을 산 영수증이 들어있네..!')
 
 
+
+
+
+
+
+
+
+
 ///// 마당
 ground.house=new MoveRoom_Print(ground, 'house', '집.png',laundry,'집으로 다시 들어왔다.')
 ground.house.resize(850)
@@ -256,7 +360,12 @@ ground.car=new MoveRoom_Print(ground, 'car', '자동차.png',olle_ent1,'올래�
 ground.car.resize(350)
 ground.car.locate(380,630)
 
-///// 올래 시장(들어갈때)
+
+
+// =======================================================================================================================
+///////// Market
+
+///// 올래 시장(집-시장)
 olle_ent1.ent=new MoveRoom_Print(olle_ent1, 'ent', '올래간판.png',market,"시장 안으로 들어왔다")
 olle_ent1.ent.resize(1200)
 olle_ent1.ent.locate(680,370)
@@ -268,7 +377,7 @@ olle_ent1.car.locate(900,630)
 
 
 
-///// 올래 시장(나갈때)
+///// 올래 시장(시장-공항)
 olle_ent2.ent=new MoveRoom_Print(olle_ent2, 'ent', '올래간판.png',market,"시장 안으로 들어왔다")
 olle_ent2.ent.resize(1200)
 olle_ent2.ent.locate(680,370)
@@ -417,6 +526,31 @@ gift_shop.conv2.onClick = function() {
 gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
 gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
+
+// =======================================================================================================================
+///////// Airport
+
+////공항
+//여권 - 승무원 조건문 변경
+airport.passport=new Item(airport,'passport','여권.jpg')
+airport.passport.locate(300,350)
+
+
+//승무원
+airport.crew=new Object(airport,'crew','승무원.png')
+airport.crew.resize(100)
+airport.crew.locate(1060, 420)
+
+airport.crew.onClick = function(){
+    if(airport.passport.isHanded()){
+        Game.end()}
+    else{
+        printMessage('여권을 들고오세요^^')
+    }
+}
+
+
+
 
 // 게임 시작
 Game.start(olle_ent1, '')
