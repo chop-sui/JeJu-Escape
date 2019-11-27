@@ -388,12 +388,36 @@ MoveRoom_Print.member('onClick', function () {
 })
 
 
-
+////
 
 
 hallway = new Room('hallway', '복도1.png')
 room2 = new Room('room2', '배경-1.png')
 living_room = new Room('living_room', '거실-4.png')
+
+room2.bad = new Object(room2, 'bad', '침대-2.png')
+room2.bad.resize(400)
+room2.bad.locate(550,400)
+
+room2.picture = new Object(room2, 'picture', '액자.png')
+room2.picture.resize(600)
+room2.picture.locate(150, 200)
+
+room2.door_to_hallway = new MoveRoom(room2, 'door_to_hallway', '문-우-열림.png', hallway)
+room2.door_to_hallway.resize(120)
+room2.door_to_hallway.locate(1100,310)
+
+room2.table = new Object(room2, 'table', '테이블-왼쪽.png')
+room2.table.resize(250)
+room2.table.locate(200, 400)
+
+room2.chair = new Object(room2, 'chair', '의자-3.png')
+room2.chair.resize(100)
+room2.chair.locate(250,450)
+
+room2.hanger = new Object(room2, 'hanger', '행거.png')
+room2.hanger.resize(250)
+room2.hanger.locate(650,200)
 
 hallway.item1 = new MoveRoom_Print(hallway, 'item1', '우도.png', room2, '우도방으로 들어왔다.')
 hallway.item1.resize(200)
