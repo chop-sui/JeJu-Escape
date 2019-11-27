@@ -18,7 +18,7 @@ Game.move = function(room){
 Game.handItem = function(){
     return game.getHandItem()
 }
- 
+
 
 //////// Room Definition
 function Room(name, background){
@@ -29,20 +29,20 @@ function Room(name, background){
 Room.member('setRoomLight', function(intensity){
     this.id.setRoomLight(intensity)
 })
- 
+
 
 //////// Object Definition
 function Object(room, name, image){
     this.room = room
     this.name = name
     this.image = image
- 
+
     if (room !== undefined){
        this.id = room.id.createObject(name, image)
     }
 }
 Object.STATUS = { OPENED: 0, CLOSED: 1, LOCKED: 2 }
- 
+
 Object.member('setSprite', function(image){
     this.image = image
     this.id.setSprite(image)
@@ -52,7 +52,7 @@ Object.member('resize', function(width){
 })
 Object.member('setDescription', function(description){
     this.id.setItemDescription(description)
-}) 
+})
 Object.member('getX', function(){
     return this.id.getX()
 })
@@ -99,19 +99,19 @@ Object.member('pick', function(){
 Object.member('isPicked', function(){
     return this.id.isPicked()
 })
- 
+
 
 
 ////// MoveRoom Definition
 function MoveRoom(room, name, image, connectedTo) {
    Object.call(this, room, name, image)
- 
+
    // this.image = image
    this.connectedTo = connectedTo
 }
- 
+
 MoveRoom.prototype = new Object()
- 
+
 MoveRoom.member('onClick', function(){
    Game.move(this.connectedTo)
 })
@@ -122,9 +122,9 @@ function MoveRoom_Print(room, name, image, connectedTo, message) {
     MoveRoom.call(this, room, name, image, connectedTo)
     this.message = message
 }
- 
+
 MoveRoom_Print.prototype = new MoveRoom()
- 
+
 MoveRoom_Print.member('onClick', function() {
     Game.move(this.connectedTo)
     printMessage(this.message)
@@ -137,29 +137,29 @@ function Item(room, name, image){
 }
 // inherited from Object
 Item.prototype = new Object()
- 
+
  Item.member('onClick', function(){
     this.id.pick()
 })
 Item.member('isHanded', function(){
     return Game.handItem() == this.id
 })
- 
+
 ///// Conversation Definition
 function Conversation(room, name, image) {
     Object.call(this, room, name, image)
- 
+
     this.id.setWidth(1280)
     this.room.id.locateObject(this.id, 640, 600)
     this.id.hide()
 }
- 
+
 Conversation.prototype = new Object()
- 
+
 Conversation.member('onClick', function() {
    this.id.hide()
 })
- 
+
 
 //////// LockedObj Definition
 function Sidetable(room, name, closedImage, openedImage, connectedTo){
@@ -180,7 +180,7 @@ Sidetable.member('onClick', function(){
 	else if (this.id.isLocked()){
 		Game.move(this.connectedTo)
 	}
-	
+
 	else if (this.id.isOpened()){
 		if (this.connectedTo !== undefined){
 			Game.move(this.connectedTo)
@@ -214,7 +214,7 @@ Drawer.member('onClick', function(){
 	if (this.id.isClosed()){
 		this.id.open()
 	}
-	
+
 	else if (this.id.isOpened()){
 		this.id.close()
 	}
@@ -231,7 +231,7 @@ Drawer.member('onClose', function(){
 //////// Keypad Definition
 function Keypad(room, name, image, password, callback, type){
     Object.call(this, room, name, image)
- 
+
     // Keypad properties
     this.password = password
     this.callback = callback
@@ -239,15 +239,15 @@ function Keypad(room, name, image, password, callback, type){
  }
  // inherited from Object
  Keypad.prototype = new Object()
- 
+
  Keypad.member('onClick', function(){
     showKeypad(this.type, this.password, this.callback)
 })
- 
+
 //////// Door Definition
 function Door(room, name, closedImage, openedImage, connectedTo){
     Object.call(this, room, name, closedImage)
- 
+
     // Door properties
     this.closedImage = closedImage
     this.openedImage = openedImage
@@ -255,7 +255,7 @@ function Door(room, name, closedImage, openedImage, connectedTo){
 }
 // inherited from Object
 Door.prototype = new Object()
- 
+
 Door.member('onClick', function(){
     if (!this.id.isLocked() && this.id.isClosed()){
        this.id.open()
@@ -275,11 +275,11 @@ Door.member('onOpen', function(){
 Door.member('onClose', function(){
     this.id.setSprite(this.closedImage)
 })
- 
- 
- 
- 
- 
+
+
+
+
+
 
 // =======================================================================================================================
 ///////// Make Room
@@ -291,13 +291,13 @@ laundry = new Room('laundry', '욕실타일.png') // 세탁실
 ground = new Room('ground', '집마당.png') // 마당
 f_room = new Room('f_room', 'Room2.png') //친구방
 //주인공방
-room1_mainview = new Room('room1_mainview', 'Room1_mainview.png')		
+room1_mainview = new Room('room1_mainview', 'Room1_mainview.png')
 room1_sidetableview = new Room('room1_sidetableview', 'Room1_sidetableview.png')
 room1_rightview = new Room('room1_rightview', 'Room1_rightview.png')
 room1_tvview = new Room('room1_tvview', 'Room1_tvview.png')
 room1_drawerview = new Room('room1_drawerview', 'Room1_drawerview.png')
 
- 
+
 //시장
 olle_ent1 = new Room('olle_ent1', '올래입구.png') // 집-시장 연결
 market = new Room('market', '시장 안.PNG') // 시장
@@ -308,17 +308,17 @@ olle_ent2 = new Room('olle_ent2', '올래입구.png') // 시장-공항 연결
 
 //공항
 airport = new Room('airport', '공항.png')
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
+
+
+
+
+
 // =======================================================================================================================
 ///////// House
 
@@ -343,8 +343,8 @@ hallway.item3.locate(500,300)
 hallway.item4 = new MoveRoom(hallway, 'item4', '1층화살표.png', living_room)
 hallway.item4.resize(100)
 hallway.item4.locate(150, 300)
- 
- 
+
+
 
 
 
@@ -459,7 +459,7 @@ Drawer.member('onClick', function(){
 	if (this.id.isClosed()){
 		this.id.open()
 	}
-	
+
 	else if (this.id.isOpened()){
 		this.id.close()
 	}
@@ -541,19 +541,19 @@ f_room.calender.onClick = function() {
 }
 
 //문
-f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', hallway) 
+f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', hallway)
 f_room.door.resize(150)
 f_room.door.locate(370, 370)
 
- 
- 
 
 
 
 
 
 
-//////빈방 
+
+
+//////빈방
 room2.bad = new Object(room2, 'bad', '침대-2.png')
 room2.bad.resize(400)
 room2.bad.locate(550,400)
@@ -582,7 +582,7 @@ room2.hanger.locate(650,200)
 
 
 
- 
+
 ////// 1층 거실
 // 소주,생선
 living_room.item1 = new Object(living_room, 'item1', '소주+생선.png')
@@ -603,7 +603,7 @@ living_room.item2.onClick = function()
 }
 
 // 2층이동아이콘
-living_room.floor = new MoveRoom_Print(living_room, 'floor', '2층아이콘.png', hallway, '2층으로 올라왔다..!') 
+living_room.floor = new MoveRoom_Print(living_room, 'floor', '2층아이콘.png', hallway, '2층으로 올라왔다..!')
 living_room.floor.resize(300)
 living_room.floor.locate(70,650)
 
@@ -672,11 +672,11 @@ ground.car.onClick = function(){
     }
 }
 
- 
- 
+
+
 // =======================================================================================================================
 ///////// Market
- 
+
 ///// 올래 시장(집-시장)
 // 시장입구
 olle_ent1.ent=new MoveRoom_Print(olle_ent1, 'ent', '올래간판.png',market,'시장 안으로 들어왔다')
@@ -729,22 +729,22 @@ olle_ent1.car.onClick = function(){
 market.move1 = new MoveRoom_Print(market, 'move1', '콩나물 가게 이동.png', bean_shop, 'GPS 상으론 여기에 에어팟이 있다고 나오는데...?')
 market.move1.resize(150)
 market.move1.locate(550, 500)
- 
+
 // 갈치 식당 이동.
 market.move2 = new MoveRoom(market, 'move2', '갈치 식당 이동.png', fish_diner)
 market.move2.resize(150)
 market.move2.locate(730, 500)
- 
+
 // 기념품 가게 이동.
 market.move3 = new MoveRoom(market, 'move3', '기념품 가게 이동.png', gift_shop)
 market.move3.resize(150)
 market.move3.locate(550, 600)
- 
+
 // 시장 입구로 이동.
 market.move4 = new MoveRoom(market, 'move4', '시장 입구 이동.png', olle_ent2)
 market.move4.resize(150)
 market.move4.locate(730, 600)
- 
+
 
 
 
@@ -769,25 +769,25 @@ bean_shop.toMarket.locate(217, 600)
 fish_diner.owner = new Object(fish_diner, 'owner', '식당 주인.png')
 fish_diner.owner.resize(170)
 fish_diner.owner.locate(950, 270)
- 
+
 
 // 집 갔다온 주인.
 fish_diner.owner2 = new Object(fish_diner, 'owner2', '식당 주인.png')
 fish_diner.owner2.resize(170)
 fish_diner.owner2.locate(950, 270)
 fish_diner.owner2.hide()
- 
+
 
 // 여권 생성
 fish_diner.passport = new Item(fish_diner, 'passport', '여권.jpg')
 fish_diner.passport.resize(30)
 fish_diner.passport.locate(1000, 285)
 fish_diner.passport.hide()
- 
+
 
 // 대화 상자1 생성
 fish_diner.conv1 = new Conversation(fish_diner, 'conv1', '식당 주인 대화1.png')
- 
+
 
 // 퀴즈1 정답 키패드 생성
 fish_diner.quiz1 = new Keypad(fish_diner, 'quiz1', '퀴즈1.png', '709', function(){
@@ -799,7 +799,7 @@ fish_diner.quiz1 = new Keypad(fish_diner, 'quiz1', '퀴즈1.png', '709', functio
 fish_diner.quiz1.resize(500)
 fish_diner.quiz1.locate(600,400)
 fish_diner.quiz1.hide()
- 
+
 
 // 퀴즈2 생성
 fish_diner.quiz2 = new Keypad(fish_diner, 'quiz2', '퀴즈2.png', '4848', function(){
@@ -811,26 +811,26 @@ fish_diner.quiz2 = new Keypad(fish_diner, 'quiz2', '퀴즈2.png', '4848', functi
 fish_diner.quiz2.resize(600)
 fish_diner.quiz2.locate(600,400)
 fish_diner.quiz2.hide()
- 
+
 
 // 대화
 // 주인 누르면 대화 상자 show.
 fish_diner.owner.onClick = function() {
     fish_diner.conv1.show()
 }
- 
+
 fish_diner.conv1.onClick = function() {
    fish_diner.conv1.hide()
    fish_diner.quiz1.show()
    showImageViewer("퀴즈1.png", "")
 }
- 
+
 
 // 시장으로 이동.
 fish_diner.toMarket = new MoveRoom(fish_diner, 'toMarket', '화살표.png', market)
 fish_diner.toMarket.resize(70)
 fish_diner.toMarket.locate(50, 350)
- 
+
 
 
 
@@ -839,54 +839,51 @@ fish_diner.toMarket.locate(50, 350)
 
 ///// 기념품 가게
 //핸드폰 - 직원에서 조건문도 변경
-gift_shop.phone=new Item(gift_shop, 'phone', '핸드폰.png')
-gift_shop.phone.resize(100)
-gift_shop.phone.locate(300, 350)
- 
+gift_shop.phone2=new Item(gift_shop, 'phone2', '핸드폰.png')
+gift_shop.phone2.resize(100)
+gift_shop.phone2.locate(300, 350)
 
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
 gift_shop.staff.resize(170)
 gift_shop.staff.locate(700, 500)
- 
 
 // 카메라 생성
 gift_shop.camera = new Item(gift_shop, 'camera', '카메라.png')
 gift_shop.camera.resize(100)
 gift_shop.camera.locate(630, 500)
 gift_shop.camera.hide()
- 
 
 // 대화 생성
 gift_shop.conv1 = new Conversation(gift_shop, 'conv1', '기념품 가게 대화1.png')
 gift_shop.conv2 = new Conversation(gift_shop, 'conv2', '기념품 가게 대화2.png')
 gift_shop.conv3 = new Conversation(gift_shop, 'conv3', '기념품 가게 대화3.png')
- 
+
 gift_shop.staff.onClick = function(){
-    if(gift_shop.phone.isHanded()){
+    if(gift_shop.phone2.isHanded()){
         gift_shop.conv1.show()
     }
     else{
-         printMessage('!@#$%^&*(*&^%$#@#$%^&*(&^ (알아들을 수 없는 제주도사투리. 핸드폰에 번역기가 있던 것 같던데...)')
+        printMessage('!@#$%^&*(*&^%$#@#$%^&*(&^ (알아들을 수 없는 제주도사투리. 핸드폰에 번역기가 있던 것 같던데...)')
     }
 }
- 
+
 gift_shop.conv1.onClick = function() {
-   gift_shop.conv1.hide()
-   gift_shop.conv2.show()
+  gift_shop.conv1.hide()
+  gift_shop.conv2.show()
 }
- 
+
 gift_shop.conv2.onClick = function() {
-   gift_shop.conv2.hide()
-   gift_shop.camera.show()
-   gift_shop.conv3.show()
+  gift_shop.conv2.hide()
+  gift_shop.camera.show()
+  gift_shop.conv3.show()
 }
- 
 
 // 시장으로 이동.
 gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
 gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
+
 
 // =======================================================================================================================
 ///////// Airport
@@ -902,9 +899,9 @@ airport.crew.onClick = function(){
         printMessage('여권을 들고오세요^^')
     }
 }
- 
- 
- 
- 
+
+
+
+
 // 게임 시작
 Game.start(room1_mainview, '아 머리가 너무 아프다...')
