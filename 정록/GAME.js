@@ -236,11 +236,11 @@ Keypad.member('onClick', function(){
 
 
 //////// DoorLock Definition
-function DoorLock(room, name, image, password, door, message){
+function DoorLock(room, name, image, password, door, type, message){
 	Keypad.call(this, room, name, image, password, function(){
 		printMessage(message)
 		door.unlock()
-	})
+	}, type)
 }
 // inherited from Object
 DoorLock.prototype = new Keypad()
@@ -262,70 +262,22 @@ Item.member('isHanded', function(){
 
 
 
+//////////////////////방 생성
 
 
 
 
-
-room1_mainview = new Room('room1_mainview', 'Room1_mainview.png')		// 변수명과 이름이 일치해야 한다.
+room1_mainview = new Room('room1_mainview', 'Room1_mainview.png')
 room1_sidetableview = new Room('room1_sidetableview', 'Room1_sidetableview.png')
 room1_rightview = new Room('room1_rightview', 'Room1_rightview.png')
 room1_tvview = new Room('room1_tvview', 'Room1_tvview.png')
 room1_drawerview = new Room('room1_drawerview', 'Room1_drawerview.png')
 f_room = new Room('f_room', 'Room2.png')
 
-f_room.cabinet_closed = new Door(f_room, 'cabinet_closed', 'cabinet_closed.png', 'cabinet_opened.png')
-f_room.cabinet_closed.resize(180)
-f_room.cabinet_closed.locate(635, 400)
-f_room.cabinet_closed.lock()
 
 
-f_room.cabinet_closed.onClick = function()
-{
-	if (!this.id.isLocked() && this.id.isClosed()){
-		this.id.open()
-		this.id.locate(642, 401)
-		f_room.keypad_front.hide()
-	    f_room.carkey.show()
-	}
-	else if (this.id.isOpened()){}
-}
 
-f_room.carkey = new Item(f_room, 'carkey', 'carkey.png')
-f_room.carkey.resize(30)
-f_room.carkey.locate(670, 409)
-f_room.carkey.hide()
-
-f_room.keypad_front = new DoorLock(f_room, 'keypad_front', 'keypad_front.png', '0116', f_room.cabinet_closed, '잠금이 풀렸다')
-f_room.keypad_front.resize(23)
-f_room.keypad_front.locate(667, 400)
-
-f_room.hammer = new Item(f_room, 'hammer', '망치.png')
-f_room.hammer.resize(70)
-f_room.hammer.locate(300, 600)
-
-//제니사진
-f_room.picture = new Object(f_room, 'picture', '액자사진.png')
-f_room.picture.resize(70)
-f_room.picture.locate(250, 300)
-f_room.picture.onClick = function() {
-   printMessage('제니 사진이 있다..')
-}
-
-//달력
-f_room.calender = new Object(f_room, 'calender', '달력.png')
-f_room.calender.resize(100)
-f_room.calender.locate(900, 300)
-f_room.calender.onClick = function() {
-    showImageViewer('달력_확대.png', '')
-}
-
-
-//문
-f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', room1_mainview) //ConnectedTo 복도로 바꾸기
-f_room.door.resize(150)
-f_room.door.locate(370, 370)
-
+/// 주인공 방
 room1_mainview.bed = new Object(room1_mainview, 'bed', 'bed.png')
 room1_mainview.bed.resize(700)
 room1_mainview.bed.locate(740, 470)
@@ -378,7 +330,7 @@ room1_sidetableview.sidetable.onClick = function(){
 	}
 }
 
-room1_sidetableview.keypad2_closed = new DoorLock(room1_sidetableview, 'keypad2_closed', 'keypad2_closed.png', '1111', room1_sidetableview.sidetable, '철커덕')
+room1_sidetableview.keypad2_closed = new DoorLock(room1_sidetableview, 'keypad2_closed', 'keypad2_closed.png', '0884', room1_sidetableview.sidetable, 'number', '철커덕')
 room1_sidetableview.keypad2_closed.resize(150)
 room1_sidetableview.keypad2_closed.locate(415, 283)
 
@@ -492,6 +444,58 @@ room1_tvview.icon_note.onClick = function(){
 	//'챙길 목록:...' 뜨게
 }
 
+///// 친구방
+f_room.cabinet_closed = new Door(f_room, 'cabinet_closed', 'cabinet_closed.png', 'cabinet_opened.png')
+f_room.cabinet_closed.resize(180)
+f_room.cabinet_closed.locate(635, 400)
+f_room.cabinet_closed.lock()
+
+
+f_room.cabinet_closed.onClick = function()
+{
+	if (!this.id.isLocked() && this.id.isClosed()){
+		this.id.open()
+		this.id.locate(642, 401)
+		f_room.keypad_front.hide()
+	    f_room.carkey.show()
+	}
+	else if (this.id.isOpened()){}
+}
+
+f_room.carkey = new Item(f_room, 'carkey', 'carkey.png')
+f_room.carkey.resize(30)
+f_room.carkey.locate(670, 409)
+f_room.carkey.hide()
+
+f_room.keypad_front = new DoorLock(f_room, 'keypad_front', 'keypad_front.png', '0116', f_room.cabinet_closed, 'number', '잠금이 풀렸다')
+f_room.keypad_front.resize(23)
+f_room.keypad_front.locate(667, 400)
+
+f_room.hammer = new Item(f_room, 'hammer', '망치.png')
+f_room.hammer.resize(70)
+f_room.hammer.locate(300, 600)
+
+//제니사진
+f_room.picture = new Object(f_room, 'picture', '액자사진.png')
+f_room.picture.resize(70)
+f_room.picture.locate(250, 300)
+f_room.picture.onClick = function() {
+   printMessage('제니 사진이 있다..')
+}
+
+//달력
+f_room.calender = new Object(f_room, 'calender', '달력.png')
+f_room.calender.resize(100)
+f_room.calender.locate(900, 300)
+f_room.calender.onClick = function() {
+    showImageViewer('달력_확대.png', '')
+}
+
+
+//문
+f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', hallway)
+f_room.door.resize(150)
+f_room.door.locate(370, 370)
 
 
 Game.start(room1_mainview, '아 머리가 너무 아프다...')
