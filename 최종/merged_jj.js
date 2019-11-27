@@ -50,7 +50,6 @@ Object.member('resize', function(width){
 Object.member('setDescription', function(description){
    this.id.setItemDescription(description)
 })
-
 Object.member('getX', function(){
    return this.id.getX()
 })
@@ -102,7 +101,6 @@ Object.member('isPicked', function(){
 function MoveRoom(room, name, image, connectedTo) {
   Object.call(this, room, name, image)
 
-  // this.image = image
   this.connectedTo = connectedTo
 }
 
@@ -145,6 +143,8 @@ Item.member('isHanded', function(){
 function Conversation(room, name, image) {
    Object.call(this, room, name, image)
 
+   this.id.setWidth(1280)
+   this.room.id.locateObject(this.id, 640, 600)
    this.id.hide()
 }
 
@@ -317,25 +317,42 @@ fish_diner.owner = new Object(fish_diner, 'owner', '식당 주인.png')
 fish_diner.owner.resize(170)
 fish_diner.owner.locate(950, 270)
 
+// 집 갔다온 주인.
+fish_diner.owner2 = new Object(fish_diner, 'owner2', '식당 주인.png')
+fish_diner.owner2.resize(170)
+fish_diner.owner2.locate(950, 270)
+fish_diner.owner2.hide()
+
+// 여권 생성
+fish_diner.passport = new Item(fish_diner, 'passport', '여권.jpg')
+fish_diner.passport.resize(30)
+fish_diner.passport.locate(1000, 285)
+fish_diner.passport.hide()
+
 // 대화 상자1 생성
 fish_diner.conv1 = new Conversation(fish_diner, 'conv1', '식당 주인 대화1.png')
-fish_diner.conv1.resize(1280)
-fish_diner.conv1.locate(640, 600)
 
 // 퀴즈1 정답 키패드 생성
-fish_diner.answer1 = new Keypad(fish_diner, 'answer1', '퀴즈1.png', '709', function(){
-  printMessage('맞아맞아 709호였지 금방 다녀올게 아이패드로 퀴즈라도 풀고 있어~')
+fish_diner.quiz1 = new Keypad(fish_diner, 'quiz1', '퀴즈1.png', '709', function(){
+  printMessage('맞아맞아 709호였지 금방 다녀올게 퀴즈라도 풀고 있어~')
   fish_diner.owner.hide()
-  fish_diner.answer1.hide()
-  fish_diner.ipad.show()
+  fish_diner.quiz1.hide()
+  fish_diner.quiz2.show()
 }, 'telephone')
-fish_diner.answer1.resize(500)
-fish_diner.answer1.locate(600,400)
-fish_diner.answer1.hide()
+fish_diner.quiz1.resize(500)
+fish_diner.quiz1.locate(600,400)
+fish_diner.quiz1.hide()
 
-// 아이패드 생성
-fish_diner.ipad = new Object(fish_diner, 'ipad', '아이패드.png')
-fish_diner.ipad.hide()
+// 퀴즈2 생성
+fish_diner.quiz2 = new Keypad(fish_diner, 'quiz2', '퀴즈2.png', '4848', function(){
+  fish_diner.owner2.show()
+  fish_diner.quiz2.hide()
+  printMessage('미안해 내가 쫌 늦었지~ 여권 가지고 왔어!')
+  fish_diner.passport.show()
+}, 'number')
+fish_diner.quiz2.resize(600)
+fish_diner.quiz2.locate(600,400)
+fish_diner.quiz2.hide()
 
 // 대화
 // 주인 누르면 대화 상자 show.
@@ -345,7 +362,7 @@ fish_diner.owner.onClick = function() {
 
 fish_diner.conv1.onClick = function() {
   fish_diner.conv1.hide()
-  fish_diner.answer1.show()
+  fish_diner.quiz1.show()
   showImageViewer("퀴즈1.png", "")
 }
 
@@ -355,10 +372,46 @@ fish_diner.toMarket.resize(70)
 fish_diner.toMarket.locate(50, 350)
 
 ///// 기념품 가게
+//핸드폰 - 직원에서 조건문도 변경
+gift_shop.phone=new Item(gift_shop, 'phone', '핸드폰.png')
+gift_shop.phone.resize(100)
+gift_shop.phone.locate(300, 350)
+
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
 gift_shop.staff.resize(170)
 gift_shop.staff.locate(700, 500)
+
+// 카메라 생성
+gift_shop.camera = new Item(gift_shop, 'camera', '카메라.png')
+gift_shop.camera.resize(100)
+gift_shop.camera.locate(630, 500)
+gift_shop.camera.hide()
+
+// 대화 생성
+gift_shop.conv1 = new Conversation(gift_shop, 'conv1', '기념품 가게 대화1.png')
+gift_shop.conv2 = new Conversation(gift_shop, 'conv2', '기념품 가게 대화2.png')
+gift_shop.conv3 = new Conversation(gift_shop, 'conv3', '기념품 가게 대화3.png')
+
+gift_shop.staff.onClick = function(){
+    if(gift_shop.phone.isHanded()){
+        gift_shop.conv1.show()
+    }
+    else{
+        printMessage('!@#$%^&*(*&^%$#@#$%^&*(&^ (알아들을 수 없는 제주도사투리. 핸드폰에 번역기가 있던 것 같던데...)')
+    }
+}
+
+gift_shop.conv1.onClick = function() {
+  gift_shop.conv1.hide()
+  gift_shop.conv2.show()
+}
+
+gift_shop.conv2.onClick = function() {
+  gift_shop.conv2.hide()
+  gift_shop.camera.show()
+  gift_shop.conv3.show()
+}
 
 // 시장으로 이동.
 gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
