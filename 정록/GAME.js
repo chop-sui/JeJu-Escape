@@ -272,6 +272,9 @@ room1_tvview = new Room('room1_tvview', 'Room1_tvview.png')
 room1_drawerview = new Room('room1_drawerview', 'Room1_drawerview.png')
 f_room = new Room('f_room', 'Room2.png')
 
+
+
+
 f_room.cabinet_closed = new Object(f_room, 'cabinet_closed', 'cabinet_closed.png')
 f_room.cabinet_closed.resize(180)
 f_room.cabinet_closed.locate(635, 400)
