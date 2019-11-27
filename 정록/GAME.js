@@ -149,6 +149,7 @@ Door.member('onClose', function(){
 	this.id.setSprite(this.closedImage)
 })
 
+
 //////// LockedObj Definition
 function Sidetable(room, name, closedImage, openedImage, connectedTo){
 	Object.call(this, room, name, closedImage)
@@ -186,6 +187,7 @@ Sidetable.member('onOpen', function(){
 Sidetable.member('onClose', function(){
 	this.id.setSprite(this.closedImage)
 })
+
 
 //////// Drawer Definition
 function Drawer(room, name, closedImage, openedImage){
@@ -272,19 +274,21 @@ room1_tvview = new Room('room1_tvview', 'Room1_tvview.png')
 room1_drawerview = new Room('room1_drawerview', 'Room1_drawerview.png')
 f_room = new Room('f_room', 'Room2.png')
 
-
-
-
-f_room.cabinet_closed = new Object(f_room, 'cabinet_closed', 'cabinet_closed.png')
+f_room.cabinet_closed = new Door(f_room, 'cabinet_closed', 'cabinet_closed.png', 'cabinet_opened.png')
 f_room.cabinet_closed.resize(180)
 f_room.cabinet_closed.locate(635, 400)
+f_room.cabinet_closed.lock()
+
 
 f_room.cabinet_closed.onClick = function()
 {
-	this.id.setSprite('cabinet_opened.png')
-	this.id.locate(642, 401)
-	f_room.keypad_front.hide()
-	f_room.carkey.show()
+	if (!this.id.isLocked() && this.id.isClosed()){
+		this.id.open()
+		this.id.locate(642, 401)
+		f_room.keypad_front.hide()
+	    f_room.carkey.show()
+	}
+	else if (this.id.isOpened()){}
 }
 
 f_room.carkey = new Item(f_room, 'carkey', 'carkey.png')
@@ -292,9 +296,7 @@ f_room.carkey.resize(30)
 f_room.carkey.locate(670, 409)
 f_room.carkey.hide()
 
-f_room.keypad_front = new Keypad(f_room, 'keypad_front', 'keypad_front.png', '0116', function(){
-	printMessage('잠금이 풀렸다')
-})
+f_room.keypad_front = new DoorLock(f_room, 'keypad_front', 'keypad_front.png', '0116', f_room.cabinet_closed, '잠금이 풀렸다')
 f_room.keypad_front.resize(23)
 f_room.keypad_front.locate(667, 400)
 
@@ -351,6 +353,8 @@ room1_mainview.keypad1_closed.locate(438, 495)
 room1_mainview.keypad1_closed.onClick = function(){
 	Game.move(room1_sidetableview)
 }
+
+
 
 room1_sidetableview.sidetable = new Sidetable(room1_sidetableview, 'sidetable', 'sidetable2_closed.png', 'sidetable2_opened.png')
 room1_sidetableview.sidetable.resize(400)
@@ -433,29 +437,40 @@ room1_drawerview.drawer_closed.locate(765, 508)
 Drawer.member('onClick', function(){
 	if (this.id.isClosed()){
 		this.id.open()
+		room1_drawerview.note.show()
 	}
 	
 	else if (this.id.isOpened()){
 		this.id.close()
+		room1_drawerview.note.hide()
 	}
-	room1_drawerview.charger.show()
+	
 })
 
-room1_drawerview.charger = new Item(room1_drawerview, 'charger', 'charger.png')
-room1_drawerview.charger.resize(100)
-room1_drawerview.charger.locate(760, 555)
-room1_drawerview.charger.hide()
+room1_drawerview.note = new Object(room1_drawerview, 'note', '쪽지.png')
+room1_drawerview.note.resize(100)
+room1_drawerview.note.locate(760, 555)
+room1_drawerview.note.hide()
+
+room1_drawerview.note.onClick = function(){
+	showImageViewer('쪽지내용.png', '')
+}
 
 room1_drawerview.phone_connected = new Object(room1_drawerview, 'phone_connected', 'phone_connected.png')
 room1_drawerview.phone_connected.resize(40)
 room1_drawerview.phone_connected.hide()
 
-//game.makeCombination(room1_sidetableview.phone, room1_drawerview.charger, room1_drawerview.phone_connected)
 
 room1_tvview.tv_off = new Object(room1_tvview, 'tv_off', 'tv_off.png')
 room1_tvview.tv_off.move(-5, -47)
 room1_tvview.tv_off.onClick = function(){
 	this.id.setSprite('tv_error.png')
+
+	if (room1_drawerview.phone_connected.isHanded()){
+		this.id.setSprite('tv_off.png')
+		room1_tvview.icon_note.show()
+		room1_tvview.icon_find.show()
+	}
 }
 room1_tvview.icon_find = new Object(room1_tvview, 'icon_find', 'icon_find.png')
 room1_tvview.icon_find.resize(140)
@@ -466,5 +481,17 @@ room1_tvview.icon_note = new Object(room1_tvview, 'icon_note', 'icon_note.png')
 room1_tvview.icon_note.resize(140)
 room1_tvview.icon_note.locate(770, 300)
 room1_tvview.icon_note.hide()
+
+
+
+room1_tvview.icon_find.onClick = function(){
+	//에어팟 위치 이미지 뜨게
+}
+
+room1_tvview.icon_note.onClick = function(){
+	//'챙길 목록:...' 뜨게
+}
+
+
 
 Game.start(room1_mainview, '아 머리가 너무 아프다...')
