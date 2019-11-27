@@ -115,9 +115,7 @@ MoveRoom.member('onClick', function(){
 ///// MoveRoom_Print Definition
 function MoveRoom_Print(room, name, image, connectedTo, message) {
 	MoveRoom.call(this, room, name, image, connectedTo)
-
 	this.message = message
-
 }
 
 MoveRoom_Print.prototype = new MoveRoom()
@@ -126,6 +124,7 @@ MoveRoom_Print.member('onClick', function() {
 	Game.move(this.connectedTo)
 	printMessage(this.message)
 })
+
 
 
 //////// Door Definition
@@ -181,14 +180,19 @@ Item.member('isHanded', function(){
 function Conversation(room, name, image) {
 	Object.call(this, room, name, image)
 }
-
 Conversation.prototype = new Object()
-
 Conversation.member('onClick', function() {
   this.id.hide()
 })
 
+
+
+
+
+
+
 ///// 방 생성
+
 market = new Room('market', '시장 안.PNG') // 시장
 bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
 gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
@@ -198,6 +202,35 @@ olle_ent1 = new Room('olle_ent1', '올래입구.png')
 olle_ent2 = new Room('olle_ent2', '올래입구.png')
 laundry = new Room('laundry', '욕실타일.png')
 airport = new Room('airport', '공항.png')
+f_room=new Room('f_room','f_room.png')
+
+
+
+//////////////f_room 
+//제니사진
+f_room.picture = new Object(f_room, 'picture', '액자사진.png')
+f_room.picture.resize(70)
+f_room.picture.locate(250, 300)
+f_room.picture.onClick = function() {
+	printMessage('제니 사진이 있다..')
+}
+
+
+
+//달력
+f_room.calender = new Object(f_room, 'calender', '달력.png')
+f_room.calender.resize(100)
+f_room.calender.locate(900, 300)
+f_room.calender.onClick = function() {
+    showImageViewer("달력_확대.png")
+}
+
+
+
+//문
+f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', laundry)
+f_room.door.resize(150)
+f_room.door.locate(370, 370)
 
 
 
@@ -207,9 +240,6 @@ airport = new Room('airport', '공항.png')
 
 
 ///// 세탁실
-
-
-
 //문
 laundry.door = new Door(laundry, 'door', '방문_닫.png', '방문_열.png', ground)
 laundry.door.resize(230)
@@ -221,7 +251,6 @@ laundry.door.locate(350, 380)
 laundry.hammer=new Item(laundry, 'hammer', '망치.png')
 laundry.hammer.resize(100)
 laundry.hammer.locate(300, 350)
-
 
 
 
@@ -240,12 +269,15 @@ laundry.washer.onClick = function(){
     }
 }
 
+
+
 //지갑
 laundry.wallet = new Item(laundry, 'wallet', '지갑_열.png')
 laundry.wallet.resize(100)
 laundry.wallet.locate(800, 600)
 laundry.wallet.hide()
 laundry.wallet.setDescription('기념품을 산 영수증이 들어있네..!')
+
 
 
 
@@ -261,11 +293,12 @@ ground.car=new MoveRoom_Print(ground, 'car', '자동차.png',olle_ent1,'올래�
 ground.car.resize(350)
 ground.car.locate(380,630)
 
+
+
 ///// 올래 시장(들어갈때)
 olle_ent1.ent=new MoveRoom_Print(olle_ent1, 'ent', '올래간판.png',market,"시장 안으로 들어왔다")
 olle_ent1.ent.resize(1200)
 olle_ent1.ent.locate(680,370)
-
 
 olle_ent1.car=new MoveRoom_Print(olle_ent1, 'car', '자동차.png',ground,"집으로 왔다!")
 olle_ent1.car.resize(550)
@@ -278,10 +311,12 @@ olle_ent2.ent=new MoveRoom_Print(olle_ent2, 'ent', '올래간판.png',market,"�
 olle_ent2.ent.resize(1200)
 olle_ent2.ent.locate(680,370)
 
-
 olle_ent2.car=new MoveRoom_Print(olle_ent2, 'car', '자동차.png',airport,"공항으로 왔다!")
 olle_ent2.car.resize(550)
 olle_ent2.car.locate(900,630)
+
+
+
 
 
 
@@ -299,12 +334,12 @@ airport.crew.locate(1060, 420)
 
 airport.crew.onClick = function(){ 
     if(airport.passport.isHanded()){    
-       // printMessage('세탁기에서 지갑을 찾았다!')}
         Game.end()}
     else{
         printMessage('여권을 들고오세요^^')
     }
 }
+
 
 
 
@@ -332,6 +367,12 @@ market.move4 = new MoveRoom(market, 'move4', '시장 입구 이동.png', olle_en
 market.move4.resize(150)
 market.move4.locate(730, 600)
 
+
+
+
+
+
+
 ///// 콩나물 가게
 // 에어팟 생성
 bean_shop.airpods = new Item(bean_shop, 'airpods', '에어팟.png')
@@ -353,21 +394,60 @@ fish_diner.owner.onClick = function() {
 	printMessage('ㅇㅇ')
 }
 
+
+
+
+
+
+
+
 // 시장으로 이동.
 fish_diner.toMarket = new MoveRoom(fish_diner, 'toMarket', '화살표.png', market)
 fish_diner.toMarket.resize(70)
 fish_diner.toMarket.locate(50, 350)
 
+
+
+
+
+
+
+
+
 ///// 기념품 가게
+//핸드폰 - 직원에서 조건문도 변경
+gift_shop.phone=new Item(gift_shop, 'phone', '핸드폰.png')
+gift_shop.phone.resize(100)
+gift_shop.phone.locate(300, 350)
+
+
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
 gift_shop.staff.resize(170)
 gift_shop.staff.locate(700, 500)
+
+
+gift_shop.staff.onClick = function(){ 
+    if(gift_shop.phone.isHanded()){    
+        printMessage('잘 됨')
+    }
+    else{
+        printMessage('!@#$%^&*(*&^%$#@#$%^&*(&^ (알아들을 수 없는 제주도사투리)')
+    }
+}
+
+
+
+
+
+
 
 // 시장으로 이동.
 gift_shop.toMarket = new MoveRoom(gift_shop, 'toMarket', '화살표.png', market)
 gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
 
+
+
 // 게임 시작
-Game.start(airport, '')
+Game.start(gift_shop, '')
