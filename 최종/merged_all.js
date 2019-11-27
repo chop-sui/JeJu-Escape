@@ -887,15 +887,8 @@ fish_diner.toMarket.locate(50, 350)
 
 
 ///// 기념품 가게
-<<<<<<< HEAD
 
  
-=======
-//핸드폰 - 직원에서 조건문도 변경
-gift_shop.phone2=new Item(gift_shop, 'phone2', '핸드폰.png')
-gift_shop.phone2.resize(100)
-gift_shop.phone2.locate(300, 350)
->>>>>>> master
 
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
@@ -914,11 +907,7 @@ gift_shop.conv2 = new Conversation(gift_shop, 'conv2', '기념품 가게 대화2
 gift_shop.conv3 = new Conversation(gift_shop, 'conv3', '기념품 가게 대화3.png')
 
 gift_shop.staff.onClick = function(){
-<<<<<<< HEAD
     if(room1_sidetableview.phone.isHanded()){
-=======
-    if(gift_shop.phone2.isHanded()){
->>>>>>> master
         gift_shop.conv1.show()
     }
     else{
@@ -943,15 +932,12 @@ gift_shop.toMarket.resize(70)
 gift_shop.toMarket.locate(150, 400)
 
 
-<<<<<<< HEAD
 
 
 
 
 
 
-=======
->>>>>>> master
 // =======================================================================================================================
 ///////// Airport
 //승무원
