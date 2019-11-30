@@ -159,7 +159,7 @@ Item_Print.member('onClick', function() {
 
 // 수정~~~(미완성)
 ///// Conversation Definition
-function Conversation(room, name, image, next) {
+/*function Conversation(room, name, image, next) {
     Object.call(this, room, name, image)
 
     this.next = next
@@ -175,6 +175,22 @@ Conversation.member('onClick', function() {
   if (this.next) {
     this.next.show()
   }
+   this.id.hide()
+})*/
+
+// 원래 conversation
+///// Conversation Definition
+function Conversation(room, name, image) {
+    Object.call(this, room, name, image)
+
+    this.id.setWidth(1280)
+    this.room.id.locateObject(this.id, 640, 600)
+    this.id.hide()
+}
+
+Conversation.prototype = new Object()
+
+Conversation.member('onClick', function() {
    this.id.hide()
 })
 
