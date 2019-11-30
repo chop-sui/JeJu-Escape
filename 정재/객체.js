@@ -157,7 +157,7 @@ Item_Print.member('onClick', function() {
   printMessage(message)
 })
 
-// 수정~~~
+// 수정~~~(미완성)
 ///// Conversation Definition
 function Conversation(room, name, image, next) {
     Object.call(this, room, name, image)
