@@ -277,11 +277,15 @@ f_room = new Room('f_room', 'Room2.png')
 
 
 
-/// 주인공 방
+////////// 주인공 방 //////////
+/////메인 뷰
+
+//침대
 room1_mainview.bed = new Object(room1_mainview, 'bed', 'bed.png')
 room1_mainview.bed.resize(700)
 room1_mainview.bed.locate(740, 470)
 
+//가방
 room1_mainview.bag = new Object(room1_mainview, 'bag', 'bag_closed.png')
 room1_mainview.bag.resize(200)
 room1_mainview.bag.locate(270, 650)
@@ -293,6 +297,7 @@ room1_mainview.bag.onClick = function()
 	printMessage('어? 내 여권, 내 지갑.. 소지품이 다 없어졌어..!')
 }
 
+//탁자
 room1_mainview.sidetable = new Sidetable(room1_mainview, 'sidetable', 'sidetable_closed.png', 'sidetable_opened.png', room1_sidetableview)
 room1_mainview.sidetable.resize(170)
 room1_mainview.sidetable.locate(380,500)
@@ -306,8 +311,9 @@ room1_mainview.keypad1_closed.onClick = function(){
 	Game.move(room1_sidetableview)
 }
 
+/////탁자 뷰
 
-
+//탁자
 room1_sidetableview.sidetable = new Sidetable(room1_sidetableview, 'sidetable', 'sidetable2_closed.png', 'sidetable2_opened.png')
 room1_sidetableview.sidetable.resize(400)
 room1_sidetableview.sidetable.locate(300, 300)
@@ -330,10 +336,12 @@ room1_sidetableview.sidetable.onClick = function(){
 	}
 }
 
+//탁자 키패드
 room1_sidetableview.keypad2_closed = new DoorLock(room1_sidetableview, 'keypad2_closed', 'keypad2_closed.png', '0884', room1_sidetableview.sidetable, 'number', '철커덕')
 room1_sidetableview.keypad2_closed.resize(150)
 room1_sidetableview.keypad2_closed.locate(415, 283)
 
+//휴대폰
 room1_sidetableview.phone = new Item(room1_sidetableview, 'phone', '핸드폰.png')
 room1_sidetableview.phone.resize(100)
 room1_sidetableview.phone.locate(343, 340)
@@ -345,6 +353,7 @@ room1_sidetableview.phone.onClick = function(){
 }
 room1_sidetableview.phone.setDescription("밧데리가 없어서 안켜진다.. 충전기를 찾아봐야겠어")
 
+//이동 화살표
 room1_sidetableview.leftarrow = new MoveRoom(room1_sidetableview, 'leftarrow', 'arrow_left.png', room1_mainview)
 room1_sidetableview.leftarrow.resize(120)
 room1_sidetableview.leftarrow.locate(55, 350)
@@ -353,6 +362,9 @@ room1_mainview.rightarrow = new MoveRoom(room1_mainview, 'rightarrow', 'arrow_ri
 room1_mainview.rightarrow.resize(120)
 room1_mainview.rightarrow.locate(1250, 400)
 
+/////우측 뷰
+
+//이동 화살표
 room1_rightview.rightarrow = new MoveRoom(room1_rightview, 'rightarrow', 'arrow_right.png', f_room)
 room1_rightview.rightarrow.resize(120)
 room1_rightview.rightarrow.locate(1150, 400)
@@ -361,11 +373,18 @@ room1_rightview.leftarrow = new MoveRoom(room1_rightview, 'leftarrow', 'arrow_le
 room1_rightview.leftarrow.resize(120)
 room1_rightview.leftarrow.locate(150, 400)
 
-
+//이동 스팟(티비)
 room1_rightview.tv_click = new MoveRoom(room1_rightview, 'tv_click', 'click_spot.png', room1_tvview)
 room1_rightview.tv_click.resize(320)
 room1_rightview.tv_click.locate(780, 340)
 
+room1_rightview.drawer_click = new MoveRoom(room1_rightview, 'drawer_click', 'click_spot.png', room1_drawerview)
+room1_rightview.drawer_click.resize(320)
+room1_rightview.drawer_click.locate(780, 578)
+
+/////티비 뷰
+
+//이동 화살표
 room1_tvview.downarrow = new MoveRoom(room1_tvview, 'downarrow', 'arrow_down.png', room1_rightview)
 room1_tvview.downarrow.resize(80)
 room1_tvview.downarrow.locate(610, 660)
@@ -375,14 +394,81 @@ room1_tvview.downarrow.onClick = function(){
 	room1_tvview.tv_off.setSprite('tv_off.png')
 }
 
-room1_rightview.drawer_click = new MoveRoom(room1_rightview, 'drawer_click', 'click_spot.png', room1_drawerview)
-room1_rightview.drawer_click.resize(320)
-room1_rightview.drawer_click.locate(780, 578)
+//티비
+room1_tvview.tv_off = new Object(room1_tvview, 'tv_off', 'tv_off.png')
+room1_tvview.tv_off.move(-5, -47)
+room1_tvview.tv_off.onClick = function(){
+	if (room1_sidetableview.phone.isHanded()){
+		this.id.setSprite('tv_off.png')
+		room1_tvview.icon_note.show()
+		room1_tvview.icon_find.show()
+		room1_tvview.todo.hide()
+		room1_tvview.map.hide()
+	}
+	else{
+		this.id.setSprite('tv_error.png')
+		printMessage('휴대폰을 연결해봐야겠다.')
+	}
+}
 
+//위치추적 아이콘
+room1_tvview.icon_find = new Object(room1_tvview, 'icon_find', 'icon_find.png')
+room1_tvview.icon_find.resize(140)
+room1_tvview.icon_find.locate(500, 300)
+room1_tvview.icon_find.hide()
+
+room1_tvview.icon_find.onClick = function(){
+	room1_tvview.map.show()
+	printMessage('어? 어제갔던 시장에 내 에어팟이??..')
+	this.id.hide()
+	room1_tvview.icon_note.hide()
+}
+
+//메모장 아이콘
+room1_tvview.icon_note = new Object(room1_tvview, 'icon_note', 'icon_note.png')
+room1_tvview.icon_note.resize(140)
+room1_tvview.icon_note.locate(770, 300)
+room1_tvview.icon_note.hide()
+
+room1_tvview.icon_note.onClick = function(){
+	room1_tvview.todo.show()
+	printMessage('챙겨야 할 것들이군..')
+	this.id.hide()
+	room1_tvview.icon_find.hide()
+}
+
+//위치추적 이미지
+room1_tvview.map = new Object(room1_tvview, 'map', '위치추적.png')
+room1_tvview.map.resize(230)
+room1_tvview.map.locate(610, 310)
+room1_tvview.map.hide()
+
+room1_tvview.map.onClick = function(){
+	this.id.hide()
+	room1_tvview.icon_find.show()
+	room1_tvview.icon_note.show()
+}
+
+//메모장 이미지
+room1_tvview.todo = new Object(room1_tvview, 'todo', '폰메모장.png')
+room1_tvview.todo.resize(230)
+room1_tvview.todo.locate(610, 310)
+room1_tvview.todo.hide()
+
+room1_tvview.todo.onClick = function(){
+	this.id.hide()
+	room1_tvview.icon_find.show()
+	room1_tvview.icon_note.show()
+}
+
+/////서랍 뷰
+
+//이동 화살표
 room1_drawerview.downarrow = new MoveRoom(room1_drawerview, 'downarrow', 'arrow_down.png', room1_rightview)
 room1_drawerview.downarrow.resize(80)
 room1_drawerview.downarrow.locate(610, 660)
 
+//서랍
 room1_drawerview.drawer_closed = new Drawer(room1_drawerview, 'drawer_closed', 'drawer_closed.png', 'drawer_opened.png')
 room1_drawerview.drawer_closed.locate(765, 508)
 
@@ -399,6 +485,7 @@ Drawer.member('onClick', function(){
 	
 })
 
+//쪽지
 room1_drawerview.note = new Object(room1_drawerview, 'note', '쪽지.png')
 room1_drawerview.note.resize(100)
 room1_drawerview.note.locate(760, 555)
@@ -408,43 +495,12 @@ room1_drawerview.note.onClick = function(){
 	showImageViewer('쪽지내용.png', '')
 }
 
-room1_drawerview.phone_connected = new Object(room1_drawerview, 'phone_connected', 'phone_connected.png')
-room1_drawerview.phone_connected.resize(40)
-room1_drawerview.phone_connected.hide()
-
-
-room1_tvview.tv_off = new Object(room1_tvview, 'tv_off', 'tv_off.png')
-room1_tvview.tv_off.move(-5, -47)
-room1_tvview.tv_off.onClick = function(){
-	this.id.setSprite('tv_error.png')
-
-	if (room1_drawerview.phone_connected.isHanded()){
-		this.id.setSprite('tv_off.png')
-		room1_tvview.icon_note.show()
-		room1_tvview.icon_find.show()
-	}
-}
-room1_tvview.icon_find = new Object(room1_tvview, 'icon_find', 'icon_find.png')
-room1_tvview.icon_find.resize(140)
-room1_tvview.icon_find.locate(500, 300)
-room1_tvview.icon_find.hide()
-
-room1_tvview.icon_note = new Object(room1_tvview, 'icon_note', 'icon_note.png')
-room1_tvview.icon_note.resize(140)
-room1_tvview.icon_note.locate(770, 300)
-room1_tvview.icon_note.hide()
 
 
 
-room1_tvview.icon_find.onClick = function(){
-	//에어팟 위치 이미지 뜨게
-}
+////////// 친구방 //////////
 
-room1_tvview.icon_note.onClick = function(){
-	//'챙길 목록:...' 뜨게
-}
-
-///// 친구방
+//캐비넷
 f_room.cabinet_closed = new Door(f_room, 'cabinet_closed', 'cabinet_closed.png', 'cabinet_opened.png')
 f_room.cabinet_closed.resize(180)
 f_room.cabinet_closed.locate(635, 400)
@@ -462,15 +518,18 @@ f_room.cabinet_closed.onClick = function()
 	else if (this.id.isOpened()){}
 }
 
+//차키
 f_room.carkey = new Item(f_room, 'carkey', 'carkey.png')
 f_room.carkey.resize(30)
 f_room.carkey.locate(670, 409)
 f_room.carkey.hide()
 
+//캐비넷 키패드
 f_room.keypad_front = new DoorLock(f_room, 'keypad_front', 'keypad_front.png', '0116', f_room.cabinet_closed, 'number', '잠금이 풀렸다')
 f_room.keypad_front.resize(23)
 f_room.keypad_front.locate(667, 400)
 
+//망치
 f_room.hammer = new Item(f_room, 'hammer', '망치.png')
 f_room.hammer.resize(70)
 f_room.hammer.locate(300, 600)
@@ -493,7 +552,7 @@ f_room.calender.onClick = function() {
 
 
 //문
-f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', hallway)
+f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', room1_mainview) //hallway로 바꿔야함
 f_room.door.resize(150)
 f_room.door.locate(370, 370)
 
