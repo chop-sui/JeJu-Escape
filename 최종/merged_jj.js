@@ -138,7 +138,7 @@ function MoveRoom_Hide(room, name, image, connectedTo) {
 MoveRoom_Hide.prototype = new MoveRoom()
 
 MoveRoom_Hide.member('onClick', function(){
-  Game.move(this.conn)
+  Game.move(this.connectedTo)
 })
 */
 
