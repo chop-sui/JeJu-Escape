@@ -130,6 +130,18 @@ MoveRoom_Print.member('onClick', function() {
     printMessage(this.message)
 })
 
+/*///// MoveRoom_Hide Definition
+function MoveRoom_Hide(room, name, image, connectedTo) {
+  MoveRoom.call(this, room, name, image, connectedTo)
+}
+
+MoveRoom_Hide.prototype = new MoveRoom()
+
+MoveRoom_Hide.member('onClick', function(){
+  Game.move(this.conn)
+})
+*/
+
 
 /////// Item Definition
 function Item(room, name, image){
@@ -285,7 +297,7 @@ Door.member('onOpen', function(){
 Door.member('onClose', function(){
     this.id.setSprite(this.closedImage)
 })
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 
 //////// DoorLock Definition
@@ -301,13 +313,13 @@ function DoorLock(room, name, image, password, door, type, message){
 
 
 
-=======
+//=======
 
 
 
 
 
->>>>>>> master
+//>>>>>>> master
 
 // =======================================================================================================================
 ///////// Make Room
@@ -583,18 +595,18 @@ f_room.door.locate(370, 370)
 
 
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //////빈방
 //문
 room2.door_to_hallway = new MoveRoom(room2, 'door_to_hallway', '문-우-열림.png', hallway)
 room2.door_to_hallway.resize(120)
 room2.door_to_hallway.locate(1100,310)
 
-=======
+//=======
 
 
 //////빈방
->>>>>>> master
+//>>>>>>> master
 room2.bad = new Object(room2, 'bad', '침대-2.png')
 room2.bad.resize(400)
 room2.bad.locate(550,400)
@@ -741,15 +753,31 @@ olle_ent1.car.locate(900,630)
 olle_ent1.toGround = new MoveRoom(olle_ent1, 'toGround', '집 이동.png', ground)
 olle_ent1.toGround.resize(150)
 olle_ent1.toGround.locate(550, 500)
+olle_ent1.toGround.hide()
+
+olle_ent1.toGround.onClick = function() {
+  Game.move(ground)
+  olle_ent1.toGround.hide()
+  olle_ent1.toAirport.hide()
+}
 
 // 공항 이동
 olle_ent1.toAirport = new MoveRoom(olle_ent1, 'toAirport', '공항 이동.png', airport)
-olle_ent1.
+olle_ent1.toAirport.resize(150)
+olle_ent1.toAirport.locate(700, 500)
+olle_ent1.toAirport.hide()
+
+olle_ent1.toAirport.onClick = function() {
+  Game.move(airport)
+  olle_ent1.toGround.hide()
+  olle_ent1.toAirport.hide()
+}
 
 olle_ent1.car.onClick = function(){
     if(f_room.carkey.isHanded()){
         // Game.move(ground) 수정
-
+        olle_ent1.toGround.show()
+        olle_ent1.toAirport.show()
     }
     else{
         printMessage('자동차키가 필요할 것 같은데..')
