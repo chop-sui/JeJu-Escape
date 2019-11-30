@@ -413,7 +413,19 @@ room2.table.locate(200, 400)
 
 room2.chair = new Object(room2, 'chair', '의자-3.png')
 room2.chair.resize(100)
-room2.chair.locate(250,450)
+room2.chair.locate(250, 450)
+
+room2.G1 = new Object(room2, 'G1', '귤1.png')
+room2.G1.resize(200)
+room2.G1.locate(150, 330)
+
+room2.G2 = new Object(room2, 'G2', '귤2.png')
+room2.G2.resize(50)
+room2.G2.locate(215, 330)
+
+room2.G3 = new Object(room2, 'G3', '귤3.png')
+room2.G3.resize(150)
+room2.G3.locate(250, 310)
 
 room2.hanger = new Object(room2, 'hanger', '행거.png')
 room2.hanger.resize(250)
