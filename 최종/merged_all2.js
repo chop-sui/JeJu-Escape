@@ -131,9 +131,9 @@ MoveRoom_Print.member('onClick', function() {
 
 ////// MoveRoom_Hide Definition
 
-function MoveRoom_Hide(room, name, image, connectedTo,message) {
+function MoveRoom_Hide(room, name, image, connectedTo,message,hide1) {
     MoveRoom_Print.call(this, room, name, image, connectedTo,message)
-
+    this.hide1=hide
 }
 
  
@@ -142,6 +142,7 @@ MoveRoom_Hide.member('onClick', function(){
     Game.move(this.connectedTo)
     printMessage(this.message)
     this.id.hide()
+    this.hide1.hide()
 })
 
 
@@ -800,12 +801,12 @@ ground.house.locate(680,355)
 
 
 // 시장이동버튼
-ground.goto_market=new MoveRoom_Hide(ground, 'goto_market', '시장버튼.png',olle_ent,'올레시장 입구로 왔다.')
+ground.goto_market=new MoveRoom_Hide(ground, 'goto_market', '시장버튼.png',olle_ent,'올레시장 입구로 왔다.',ground.goto_airport)
 ground.goto_market.locate(500,410)
 ground.goto_market.hide()
 
 //공항이동버튼
-ground.goto_airport=new MoveRoom_Hide(ground,'goto_airport','공항버튼.png',airport,'공항으로 왔다!')
+ground.goto_airport=new MoveRoom_Hide(ground,'goto_airport','공항버튼.png',airport,'공항으로 왔다!',ground.goto_market)
 ground.goto_airport.locate(730,410)
 ground.goto_airport.hide()
 
@@ -837,12 +838,12 @@ olle_ent.ent.resize(1200)
 olle_ent.ent.locate(680,370)
 
 // 집이동버튼
-olle_ent.goto_home=new MoveRoom_Hide(olle_ent,'goto_home','집버튼.png',ground,'집으로 왔다!')
+olle_ent.goto_home=new MoveRoom_Hide(olle_ent,'goto_home','집버튼.png',ground,'집으로 왔다!',olle_ent.goto_airport)
 olle_ent.goto_home.locate(500,410)
 olle_ent.goto_home.hide()
 
 //공항이동버튼
-olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!')
+olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!',olle_ent.goto_home)
 olle_ent.goto_airport.locate(730,410)
 olle_ent.goto_airport.hide()
 
@@ -1060,12 +1061,12 @@ airport.crew.onClick = function(){
 }
 
 // 집이동버튼
-airport.goto_home=new MoveRoom_Hide(airport,'goto_home','집버튼.png',ground,'집으로 왔다!')
+airport.goto_home=new MoveRoom_Hide(airport,'goto_home','집버튼.png',ground,'집으로 왔다!',airport.goto_market)
 airport.goto_home.locate(500,410)
 airport.goto_home.hide()
 
 //시장이동버튼
-airport.goto_market=new MoveRoom_Hide(airport,'goto_market','시장버튼.png',olle_ent,'시장으로 왔다!')
+airport.goto_market=new MoveRoom_Hide(airport,'goto_market','시장버튼.png',olle_ent,'시장으로 왔다!',airport.goto_home)
 airport.goto_market.locate(730,410)
 airport.goto_market.hide()
 
