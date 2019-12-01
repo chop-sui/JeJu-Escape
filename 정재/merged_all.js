@@ -144,6 +144,19 @@ Item.member('isHanded', function(){
     return Game.handItem() == this.id
 })
 
+///// Item_Print Definition
+function Item_Print(room, name, image, message) {
+  Item.call(this, room, name, image)
+}
+
+// inherited from Item
+Item_Print.prototype = new Item()
+
+Item_Print.member('onClick', function() {
+  this.id.pick()
+  printMessage(message)
+})
+
 ///// Conversation Definition
 function Conversation(room, name, image) {
     Object.call(this, room, name, image)
@@ -284,7 +297,7 @@ Door.member('onOpen', function(){
 Door.member('onClose', function(){
     this.id.setSprite(this.closedImage)
 })
- 
+
 
 //////// DoorLock Definition
 function DoorLock(room, name, image, password, door, type, message){
@@ -295,7 +308,7 @@ function DoorLock(room, name, image, password, door, type, message){
  }
  // inherited from Object
  DoorLock.prototype = new Keypad()
- 
+
 
 
  ///// Wallet Definition
@@ -305,8 +318,8 @@ function DoorLock(room, name, image, password, door, type, message){
 
   // inherited from Item
   Wallet.prototype=new Item()
- 
- 
+
+
 
 // =======================================================================================================================
 ///////// Make Room
@@ -579,12 +592,12 @@ Drawer.member('onClick', function(){
 		this.id.open()
 		room1_drawerview.note.show()
 	}
-	
+
 	else if (this.id.isOpened()){
 		this.id.close()
 		room1_drawerview.note.hide()
 	}
-	
+
 })
 
 //쪽지
@@ -656,7 +669,7 @@ f_room.door.locate(370, 370)
 
 
 
-//////빈방 
+//////빈방
 //문
 room2.door_to_hallway = new MoveRoom(room2, 'door_to_hallway', '문-우-열림.png', hallway)
 room2.door_to_hallway.resize(120)
@@ -749,25 +762,48 @@ laundry.washer = new Object(laundry, 'washer', '세탁기_닫.png')
 laundry.washer.resize(300)
 laundry.washer.locate(960, 460)
 
+//바지
+laundry.pants = new Object(laundry, 'pants', '바지.png')
+laundry.pants.resize(200)
+laundry.pants.locate(1000, 500)
+laundry.pants.hide()
+
 laundry.washer.onClick = function(){
     if(f_room.hammer.isHanded()){
-        laundry.wallet.show()
-        laundry.washer.setSprite('세탁기_열.png')
-        printMessage('세탁기에서 지갑을 찾았다!')}
+      laundry.pants.show()
+      printMessage("어제 입은 바지다")
+      //laundry.wallet.show()
+      laundry.washer.setSprite('세탁기_열.png')
+      //printMessage('세탁기에서 지갑을 찾았다!')
+    }
     else{
-        printMessage('단단하게 잠겨있는데.. 부술것 없나..')
+      printMessage('단단하게 잠겨있는데.. 부술것 없나..')
     }
 }
 
+laundry.pants.onClick = function() {
+  laundry.wallet.show()
+  printMessage('바지 안에서 지갑이 떨어졌다!')
+}
+
 //지갑
-laundry.wallet = new Wallet(laundry, 'wallet', '지갑_열.png')
+//laundry.wallet = new Wallet(laundry, 'wallet', '지갑_열.png')
+laundry.wallet = new Item_Print(laundry, 'wallet', '지갑_열.png', '지갑 안에 기념품을 산 영수증이 들어있다..!')
 laundry.wallet.resize(100)
 laundry.wallet.locate(800, 600)
 laundry.wallet.hide()
+/*
 Wallet.member('onClick',function(){
     this.id.pick()
     market.move3.show()
-})
+})*/
+
+laundry.wallet.onClick = function() {
+  laundry.wallet.pick()
+  market.move3.show()
+  printMessage('지갑 안에 기념품을 산 영수증이 들어있다..!')
+}
+
 laundry.wallet.setDescription('기념품을 산 영수증이 들어있네..!')
 
 
@@ -967,7 +1003,7 @@ fish_diner.toMarket.locate(50, 350)
 
 //////////// 기념품 가게 //////////////
 
- 
+
 
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
