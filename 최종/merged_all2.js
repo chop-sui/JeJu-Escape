@@ -304,7 +304,7 @@ Door.member('onOpen', function(){
 Door.member('onClose', function(){
     this.id.setSprite(this.closedImage)
 })
- 
+
 
 //////// DoorLock Definition
 function DoorLock(room, name, image, password, door, type, message){
@@ -315,7 +315,7 @@ function DoorLock(room, name, image, password, door, type, message){
  }
  // inherited from Object
  DoorLock.prototype = new Keypad()
- 
+
 
 
  ///// Wallet Definition
@@ -325,8 +325,8 @@ function DoorLock(room, name, image, password, door, type, message){
 
   // inherited from Item
   Wallet.prototype=new Item()
- 
- 
+
+
 
 // =======================================================================================================================
 ///////// Make Room
@@ -531,7 +531,7 @@ room1_tvview.tv_off.onClick = function(){
 	else{
 		this.id.setSprite('tv_error.png')
         printMessage('휴대폰을 연결해봐야겠다.')
-        
+
 	}
 }
 
@@ -603,12 +603,12 @@ Drawer.member('onClick', function(){
 		this.id.open()
 		room1_drawerview.note.show()
 	}
-	
+
 	else if (this.id.isOpened()){
 		this.id.close()
 		room1_drawerview.note.hide()
 	}
-	
+
 })
 
 //쪽지
@@ -689,7 +689,7 @@ f_room.door.locate(370, 370)
 
 
 
-//////빈방 
+//////빈방
 //문
 room2.door_to_hallway = new MoveRoom(room2, 'door_to_hallway', '문-우-열림.png', hallway)
 room2.door_to_hallway.resize(120)
@@ -820,7 +820,7 @@ ground.goto_market.locate(500,410)
 ground.goto_market.hide()
 
 //공항이동버튼
-//ground.goto_airport = new MoveRoom_Hide(ground, 'goto_airport', '공항버튼.png', airport, '공항으로 왔다!', ground.goto_market)
+ground.goto_airport = new MoveRoom_Hide(ground, 'goto_airport', '공항버튼.png', airport, '공항으로 왔다!', ground.goto_market)
 ground.goto_airport.locate(730,410)
 ground.goto_airport.hide()
 
@@ -857,7 +857,7 @@ olle_ent.goto_home.locate(500,410)
 olle_ent.goto_home.hide()
 
 //공항이동버튼
-//olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!', olle_ent.goto_home)
+olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!', olle_ent.goto_home)
 olle_ent.goto_airport.locate(730,410)
 olle_ent.goto_airport.hide()
 
@@ -1081,7 +1081,7 @@ airport.goto_home.hide()
 
 
 //시장이동버튼
-//airport.goto_market = new MoveRoom_Hide(airport, 'goto_market', '시장버튼.png', olle_ent, '시장으로 왔다!', airport.goto_home)
+airport.goto_market = new MoveRoom_Hide(airport, 'goto_market', '시장버튼.png', olle_ent, '시장으로 왔다!', airport.goto_home)
 airport.goto_market.locate(730,410)
 airport.goto_market.hide()
 
