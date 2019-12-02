@@ -428,7 +428,6 @@ room1_sidetableview.phone = new Item_Print(room1_sidetableview, 'phone', '핸드
 room1_sidetableview.phone.resize(100)
 room1_sidetableview.phone.locate(343, 340)
 room1_sidetableview.phone.hide()
-room1_sidetableview.phone.setDescription('휴대폰을 어디에 사용할 수 있을까..?')
 
 /*room1_sidetableview.phone.onClick = function(){
 	printMessage('엥? 내 휴대폰이 왜 여기에 있지?')
