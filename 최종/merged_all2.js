@@ -124,20 +124,19 @@ function MoveRoom_Print(room, name, image, connectedTo, message) {
 
 MoveRoom_Print.prototype = new MoveRoom()
 
-MoveRoom_Print.member('onClick', function() {
+MoveRoom_Print.member('onClick', function(){
     Game.move(this.connectedTo)
     printMessage(this.message)
 })
 
 ////// MoveRoom_Hide Definition
-
-function MoveRoom_Hide(room, name, image, connectedTo,message,hide1) {
-    MoveRoom_Print.call(this, room, name, image, connectedTo,message)
-    this.hide1=hide
+function MoveRoom_Hide(room, name, image, connectedTo, message, hide1) {
+    MoveRoom_Print.call(this, room, name, image, connectedTo, message)
+    this.hide1 = hide1
 }
 
- 
-MoveRoom_Hide.prototype = new MoveRoom()
+MoveRoom_Hide.prototype = new MoveRoom_Print()
+
 MoveRoom_Hide.member('onClick', function(){
     Game.move(this.connectedTo)
     printMessage(this.message)
@@ -180,7 +179,7 @@ Conversation.member('onClick', function() {
 })
 
 
-//////// LockedObj Definition
+//////// Sidetable Definition
 function Sidetable(room, name, closedImage, openedImage, connectedTo){
 	Object.call(this, room, name, closedImage)
 
@@ -248,19 +247,20 @@ Drawer.member('onClose', function(){
 })
 
 //////// Keypad Definition
-function Keypad(room, name, image, password, callback){
+function Keypad(room, name, image, password, callback, type){
     Object.call(this, room, name, image)
 
     // Keypad properties
     this.password = password
     this.callback = callback
+    this.type = type
 
  }
  // inherited from Object
  Keypad.prototype = new Object()
 
  Keypad.member('onClick', function(){
-	showKeypad('number', this.password, this.callback)
+	showKeypad(this.type, this.password, this.callback)
 })
 
 //////// DoorLock Definition
@@ -510,7 +510,11 @@ room1_tvview.downarrow.locate(610, 660)
 
 room1_tvview.downarrow.onClick = function(){
 	Game.move(room1_rightview)
-	room1_tvview.tv_off.setSprite('tv_off.png')
+    room1_tvview.tv_off.setSprite('tv_off.png')
+    room1_tvview.icon_note.hide()
+    room1_tvview.icon_find.hide()
+    room1_tvview.todo.hide()
+	room1_tvview.map.hide()
 }
 
 //티비
@@ -526,7 +530,8 @@ room1_tvview.tv_off.onClick = function(){
 	}
 	else{
 		this.id.setSprite('tv_error.png')
-		printMessage('휴대폰을 연결해봐야겠다.')
+        printMessage('휴대폰을 연결해봐야겠다.')
+        
 	}
 }
 
@@ -620,30 +625,38 @@ room1_drawerview.note.onClick = function(){
 
 
 
-///// 친구방
-f_room.cabinet_closed = new Object(f_room, 'cabinet_closed', 'cabinet_closed.png')
+////////// 친구방 //////////
+
+//캐비넷
+f_room.cabinet_closed = new Door(f_room, 'cabinet_closed', 'cabinet_closed.png', 'cabinet_opened.png')
 f_room.cabinet_closed.resize(180)
 f_room.cabinet_closed.locate(635, 400)
+f_room.cabinet_closed.lock()
+
 
 f_room.cabinet_closed.onClick = function()
 {
-	this.id.setSprite('cabinet_opened.png')
-	this.id.locate(642, 401)
-	f_room.keypad_front.hide()
-	f_room.carkey.show()
+	if (!this.id.isLocked() && this.id.isClosed()){
+		this.id.open()
+		this.id.locate(642, 401)
+		f_room.keypad_front.hide()
+	    f_room.carkey.show()
+	}
+	else if (this.id.isOpened()){}
 }
 
+//차키
 f_room.carkey = new Item(f_room, 'carkey', 'carkey.png')
 f_room.carkey.resize(30)
 f_room.carkey.locate(670, 409)
 f_room.carkey.hide()
 
-f_room.keypad_front = new Keypad(f_room, 'keypad_front', 'keypad_front.png', '0116', function(){
-	printMessage('잠금이 풀렸다')
-})
+//캐비넷 키패드
+f_room.keypad_front = new DoorLock(f_room, 'keypad_front', 'keypad_front.png', '0116', f_room.cabinet_closed, 'number', '잠금이 풀렸다')
 f_room.keypad_front.resize(23)
 f_room.keypad_front.locate(667, 400)
 
+//망치
 f_room.hammer = new Item(f_room, 'hammer', '망치.png')
 f_room.hammer.resize(70)
 f_room.hammer.locate(300, 600)
@@ -663,6 +676,7 @@ f_room.calender.locate(900, 300)
 f_room.calender.onClick = function() {
     showImageViewer('달력_확대.png', '')
 }
+
 
 //문
 f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', hallway)
@@ -800,19 +814,19 @@ ground.house.resize(850)
 ground.house.locate(680,355)
 
 
-// 시장이동버튼
-ground.goto_market=new MoveRoom_Hide(ground, 'goto_market', '시장버튼.png',olle_ent,'올레시장 입구로 왔다.',ground.goto_airport)
+//시장이동버튼
+ground.goto_market = new MoveRoom_Hide(ground, 'goto_market', '시장버튼.png', olle_ent, '올레시장 입구로 왔다.', ground.goto_airport)
 ground.goto_market.locate(500,410)
 ground.goto_market.hide()
 
 //공항이동버튼
-ground.goto_airport=new MoveRoom_Hide(ground,'goto_airport','공항버튼.png',airport,'공항으로 왔다!',ground.goto_market)
+//ground.goto_airport = new MoveRoom_Hide(ground, 'goto_airport', '공항버튼.png', airport, '공항으로 왔다!', ground.goto_market)
 ground.goto_airport.locate(730,410)
 ground.goto_airport.hide()
 
 
 //자동차
-ground.car=new Object(ground,'car','자동차.png')
+ground.car = new Object(ground, 'car', '자동차.png')
 ground.car.resize(350)
 ground.car.locate(380,630)
 
@@ -838,12 +852,12 @@ olle_ent.ent.resize(1200)
 olle_ent.ent.locate(680,370)
 
 // 집이동버튼
-olle_ent.goto_home=new MoveRoom_Hide(olle_ent,'goto_home','집버튼.png',ground,'집으로 왔다!',olle_ent.goto_airport)
+olle_ent.goto_home=new MoveRoom_Hide(olle_ent,'goto_home','집버튼.png',ground,'집으로 왔다!', olle_ent.goto_airport)
 olle_ent.goto_home.locate(500,410)
 olle_ent.goto_home.hide()
 
 //공항이동버튼
-olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!',olle_ent.goto_home)
+//olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!', olle_ent.goto_home)
 olle_ent.goto_airport.locate(730,410)
 olle_ent.goto_airport.hide()
 
@@ -995,7 +1009,7 @@ fish_diner.toMarket.locate(50, 350)
 
 //////////// 기념품 가게 //////////////
 
- 
+
 
 // 직원 생성
 gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
@@ -1048,7 +1062,7 @@ gift_shop.toMarket.locate(150, 400)
 // =======================================================================================================================
 ///////// Airport
 //승무원
-airport.crew=new Object(airport,'crew','승무원.png')
+airport.crew = new Object(airport, 'crew', '승무원.png')
 airport.crew.resize(100)
 airport.crew.locate(1060, 420)
 
@@ -1061,12 +1075,13 @@ airport.crew.onClick = function(){
 }
 
 // 집이동버튼
-airport.goto_home=new MoveRoom_Hide(airport,'goto_home','집버튼.png',ground,'집으로 왔다!',airport.goto_market)
+airport.goto_home = new MoveRoom_Hide(airport, 'goto_home', '집버튼.png', ground, '집으로 왔다!', airport.goto_market)
 airport.goto_home.locate(500,410)
 airport.goto_home.hide()
 
+
 //시장이동버튼
-airport.goto_market=new MoveRoom_Hide(airport,'goto_market','시장버튼.png',olle_ent,'시장으로 왔다!',airport.goto_home)
+//airport.goto_market = new MoveRoom_Hide(airport, 'goto_market', '시장버튼.png', olle_ent, '시장으로 왔다!', airport.goto_home)
 airport.goto_market.locate(730,410)
 airport.goto_market.hide()
 
