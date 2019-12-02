@@ -319,7 +319,7 @@ Door.member('onClose', function(){
 })
 
 
-//////// DoorLock Definition
+/*//////// DoorLock Definition
 function DoorLock(room, name, image, password, door, type, message){
     Keypad.call(this, room, name, image, password, function(){
        printMessage(message)
@@ -327,7 +327,7 @@ function DoorLock(room, name, image, password, door, type, message){
     }, type)
  }
  // inherited from Object
- DoorLock.prototype = new Keypad()
+ DoorLock.prototype = new Keypad()*/
 
 
 /*
