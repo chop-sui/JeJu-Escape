@@ -501,7 +501,7 @@ living_room.item2.onClick = function()
     printMessage('왠 종이냐...')
 }
 
-living_room.floor = new MoveRoom_Print(living_room, 'floor', '2층아이콘.png', hallway, '2층으로 올라왔다..!') 
+living_room.floor = new MoveRoom_Print(living_room, 'floor', '2층아이콘.png', hallway, '2층으로 올라왔다..!')
 living_room.floor.resize(300)
 living_room.floor.locate(70,650)
 
