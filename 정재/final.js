@@ -536,7 +536,7 @@ room1_tvview.map.onClick = function(){
 	this.id.hide()
 	room1_tvview.icon_find.show()
     room1_tvview.icon_note.show()
-    
+
 
 }
 
@@ -568,12 +568,12 @@ room1_drawerview.drawer.onClick = function(){
 		this.id.open()
 		room1_drawerview.note.show()
 	}
-	
+
 	else if (this.id.isOpened()){
 		this.id.close()
 		room1_drawerview.note.hide()
 	}
-	
+
 }
 
 room1_drawerview.drawer.onOpen = function(){
@@ -789,7 +789,7 @@ laundry.washer.onClick = function(){
     if (this.id.isClosed() && f_room.hammer.isHanded()){
         this.id.open()
     }
-    
+
     else if (this.id.isOpened()){
     }
     else{
@@ -869,10 +869,16 @@ ground.goto_market.onClick = function(){
 }
 
 ground.goto_airport.onClick = function(){
-    Game.move(airport)
-    ground.goto_market.hide()
-    ground.goto_airport.hide()
-} 
+    if (fish_diner.passport.isPicked() && gift_shop.camera.isPicked() && bean_shop.airpods.isPicked() && laundry.wallet.isPicked() && room1_sidetableview.phone.isPicked()){
+      Game.move(airport)
+      ground.goto_market.hide()
+      ground.goto_airport.hide()
+    }
+    else{
+      printMessage('아직 못 찾은 물건이 있어!')
+    }
+
+}
 
 
 
@@ -925,10 +931,28 @@ olle_ent.goto_home.onClick = function(){
 }
 
 olle_ent.goto_airport.onClick = function(){
+  if (fish_diner.passport.isPicked() && gift_shop.camera.isPicked() && bean_shop.airpods.isPicked() && laundry.wallet.isPicked() && room1_sidetableview.phone.isPicked()){
     Game.move(airport)
     olle_ent.goto_home.hide()
     olle_ent.goto_airport.hide()
-} 
+  }
+  else {
+    printMessage('아직 못 찾은 물건이 있어!')
+  }
+}
+
+/*
+ground.goto_airport.onClick = function(){
+    if (fish_diner.passport.isPicked() && gift_shop.camera.isPicked() && bean_shop.airpods.isPicked() && laundry.wallet.isPicked() && room1_sidetableview.phone.isPicked()){
+      Game.move(airport)
+      ground.goto_market.hide()
+      ground.goto_airport.hide()
+    }
+    else{
+      printMessage('아직 못 찾은 물건이 있어!')
+    }
+
+}*/
 
 
 
