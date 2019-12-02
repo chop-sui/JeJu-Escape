@@ -433,7 +433,8 @@ room1_sidetableview.phone.hide()
 	printMessage('엥? 내 휴대폰이 왜 여기에 있지?')
 	this.id.pick()
 }*/
-room1_sidetableview.phone.setDescription("화면이 안켜진다.")
+//room1_sidetableview.phone.setDescription("화면이 안켜진다.")
+room1_sidetableview.phone.setDescription("화면이 안켜진다. 일단 TV에 연결해서 잠깐이라도 충전을 할까...")
 
 // 이동 화살표
 room1_sidetableview.leftarrow = new MoveRoom(room1_sidetableview, 'leftarrow', 'arrow_left.png', room1_mainview)
@@ -495,7 +496,8 @@ room1_tvview.tv.onClick = function(){
 		room1_tvview.icon_note.show()
 		room1_tvview.icon_find.show()
 		room1_tvview.todo.hide()
-		room1_tvview.map.hide()
+        room1_tvview.map.hide()
+        printMessage('휴대폰이 TV랑 연결됐다')
 	}
 }
 
