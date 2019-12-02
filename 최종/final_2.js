@@ -749,10 +749,18 @@ room3.mac = new Object(room3, 'mac', '맥-좌.png')
 room3.mac.resize(130)
 room3.mac.locate(310, 230)
 
-room3.mac.onClick = function () {
+/*room3.mac.onClick = function () {
     if (room3.safe.isLocked()){
         showImageViewer('아스키코드.png', '')
         printMessage('퍼센트 d? 아.. 예전에 배웠던 것 같은데.. 뭐더라..?')
+    }
+    else{}
+}*/
+
+room3.mac.onClick = function () {
+    if (room3.safe.isLocked()){
+        showImageViewer('아스키코드2.png', '')
+        printMessage('퍼센트 c? 아.. 예전에 배웠던 것 같은데.. 뭐더라..?')
     }
     else{}
 }
