@@ -346,6 +346,7 @@ function DoorLock(room, name, image, password, door, type, message){
 //집
 hallway = new Room('hallway', '복도1.png') // 2층복도
 room2 = new Room('room2', '배경-1.png') //빈방
+room3 = new Room('room3', '배경-1.png')
 living_room = new Room('living_room', '거실-4.png')// 1층 거실
 laundry = new Room('laundry', '욕실타일.png') // 세탁실
 ground = new Room('ground', '집마당.png') // 마당
@@ -403,7 +404,10 @@ hallway.item4 = new MoveRoom(hallway, 'item4', '1층화살표.png', living_room)
 hallway.item4.resize(100)
 hallway.item4.locate(150, 300)
 
-
+// 한라봉방이동 (빈방)
+hallway.item5 = new MoveRoom_Print(hallway, 'item5', '한라봉.png',room3,  '한라봉방으로 들어왔다.')
+hallway.item5.resize(150)
+hallway.item5.locate(770,300)
 
 
 
@@ -742,7 +746,35 @@ room2.G3.locate(250, 310)
 
 
 
+///// room3추가
 
+room3.shelf = new Object(room3,'shelf', '선반-좌.png')
+room3.shelf.resize(460)
+room3.shelf.locate( 250, 150)
+
+/*room3.book = room1.createObject("book", "책3-1.png")
+room3.book.setWidth(80)
+room3.locateObject(room1.book, 100, 140)*/
+
+room3.plant = new Object(room3,'plant', '식물2-1.png')
+room3.plant.resize(250)
+room3.plant.locate( 500, 310)
+
+room3.table = new Object(room3,'table', '테이블-왼쪽.png')
+room3.table.resize(300)
+room3.table.locate( 300, 370)
+
+room3.chair = new Object(room3,'chair', '의자1-7.png')
+room3.chair.resize(180)
+room3.chair.locate(450, 380)
+
+room3.picture = new Object(room3, 'picture', '액자2.png')
+room3.picture.resize(500)
+room3.picture.locate(800,150)
+
+room3.doortohallway = new MoveRoom(room3, 'doortohallway', '문-우-열림.png', hallway)
+room3.doortohallway.resize(120)
+room3.doortohallway.locate(1100, 310)
 
 
 ///////////////// 1층 거실 ////////////////////////////
