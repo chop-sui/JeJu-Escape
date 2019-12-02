@@ -892,15 +892,33 @@ ground.house.resize(850)
 ground.house.locate(680,355)
 
 
-//시장이동버튼
-ground.goto_market = new MoveRoom_Hide(ground, 'goto_market', '시장버튼.png', olle_ent, '올레시장 입구로 왔다.', ground.goto_airport)
+
+//이동버튼
+ground.goto_market = new Object(ground, 'goto_market', '시장버튼.png')
+//MoveRoom_Hide(ground, 'goto_market', '시장버튼.png', olle_ent, '올레시장 입구로 왔다.', ground.goto_airport)
 ground.goto_market.locate(500,410)
 ground.goto_market.hide()
 
-//공항이동버튼
-ground.goto_airport = new MoveRoom_Hide(ground, 'goto_airport', '공항버튼.png', airport, '공항으로 왔다!', ground.goto_market)
+ground.goto_airport = new Object(ground, 'goto_airport', '공항버튼.png')
 ground.goto_airport.locate(730,410)
 ground.goto_airport.hide()
+
+
+ground.goto_market.onClick = function(){
+    Game.move(market)
+    ground.goto_market.hide()
+    ground.goto_airport.hide()
+}
+
+ground.goto_airport.onClick = function(){
+    Game.move(airport)
+    ground.goto_market.hide()
+    ground.goto_airport.hide()
+}
+
+
+//공항이동버튼
+//ground.goto_airport = new MoveRoom_Hide(ground, 'goto_airport', '공항버튼.png', airport, '공항으로 왔다!', ground.goto_market)
 
 
 //자동차
@@ -924,20 +942,35 @@ ground.car.onClick = function(){
 ///////// Market
 
 ///// 올래 시장(집-시장)
+//이동버튼
+olle_ent.goto_home = new Object(olle_ent, 'goto_home', '집버튼.png')
+olle_ent.goto_home.locate(500,410)
+olle_ent.goto_home.hide()
+
+olle_ent.goto_airport = new Object(olle_ent, 'goto_airport', '공항버튼.png')
+olle_ent.goto_airport.locate(730,410)
+olle_ent.goto_airport.hide()
+
+
+olle_ent.goto_home.onClick = function(){
+    Game.move(ground)
+    olle_ent.goto_home.hide()
+    olle_ent.goto_airport.hide()
+}
+
+olle_ent.goto_airport.onClick = function(){
+    Game.move(airport)
+    olle_ent.goto_home.hide()
+    olle_ent.goto_airport.hide()
+}
+
+
+
 // 시장들어가기
 olle_ent.ent=new MoveRoom_Print(olle_ent, 'ent', '올래간판.png',market,'시장 안으로 들어왔다')
 olle_ent.ent.resize(1200)
 olle_ent.ent.locate(680,370)
 
-// 집이동버튼
-olle_ent.goto_home=new MoveRoom_Hide(olle_ent,'goto_home','집버튼.png',ground,'집으로 왔다!', olle_ent.goto_airport)
-olle_ent.goto_home.locate(500,410)
-olle_ent.goto_home.hide()
-
-//공항이동버튼
-olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!', olle_ent.goto_home)
-olle_ent.goto_airport.locate(730,410)
-olle_ent.goto_airport.hide()
 
 
 
@@ -1152,16 +1185,31 @@ airport.crew.onClick = function(){
     }
 }
 
-// 집이동버튼
-airport.goto_home = new MoveRoom_Hide(airport, 'goto_home', '집버튼.png', ground, '집으로 왔다!', airport.goto_market)
+
+
+//이동버튼
+airport.goto_home = new Object(airport, 'goto_home', '집버튼.png')
 airport.goto_home.locate(500,410)
 airport.goto_home.hide()
 
+airport.goto_olle_ent = new Object(airport, 'goto_olle_ent', '시장버튼.png')
+airport.goto_olle_ent.locate(730,410)
+airport.goto_olle_ent.hide()
 
-//시장이동버튼
-airport.goto_market = new MoveRoom_Hide(airport, 'goto_market', '시장버튼.png', olle_ent, '시장으로 왔다!', airport.goto_home)
-airport.goto_market.locate(730,410)
-airport.goto_market.hide()
+
+airport.goto_home.onClick = function(){
+    Game.move(ground)
+    airport.goto_home.hide()
+    airport.goto_olle_ent.hide()
+}
+
+airport.goto_olle_ent.onClick = function(){
+    Game.move(olle_ent)
+    airport.goto_home.hide()
+    airport.goto_olle_ent.hide()
+}
+
+
 
 
 
