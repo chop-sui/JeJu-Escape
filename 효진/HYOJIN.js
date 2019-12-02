@@ -389,11 +389,12 @@ MoveRoom_Print.member('onClick', function () {
 
 
 ////
-
+//room2, room3 == fake room
 
 hallway = new Room('hallway', '복도1.png')
 room2 = new Room('room2', '배경-1.png')
 living_room = new Room('living_room', '거실-4.png')
+room3 = new Room('room3', '배경-1.png')
 
 room2.bad = new Object(room2, 'bad', '침대-2.png')
 room2.bad.resize(400)
@@ -431,6 +432,37 @@ room2.hanger = new Object(room2, 'hanger', '행거.png')
 room2.hanger.resize(250)
 room2.hanger.locate(650,200)
 
+
+// room3추가
+
+room3.shelf = new Object(room3,'shelf', '선반-좌.png')
+room3.shelf.resize(460)
+room3.shelf.locate( 250, 150)
+
+/*room3.book = room1.createObject("book", "책3-1.png")
+room3.book.setWidth(80)
+room3.locateObject(room1.book, 100, 140)*/
+
+room3.plant = new Object(room3,'plant', '식물2-1.png')
+room3.plant.resize(250)
+room3.plant.locate( 500, 310)
+
+room3.table = new Object(room3,'table', '테이블-왼쪽.png')
+room3.table.resize(300)
+room3.table.locate( 300, 370)
+
+room3.chair = new Object(room3,'chair', '의자1-7.png')
+room3.chair.resize(180)
+room3.chair.locate(450, 380)
+
+room3.picture = new Object(room3, 'picture', '액자2.png')
+room3.picture.resize(500)
+room3.picture.locate(800,150)
+
+room3.doortohallway = new MoveRoom(room3, 'doortohallway', '문-우-열림.png', hallway)
+room3.doortohallway.resize(120)
+room3.doortohallway.locate(1100, 310)
+//
 hallway.item1 = new MoveRoom_Print(hallway, 'item1', '우도.png', room2, '우도방으로 들어왔다.')
 hallway.item1.resize(200)
 hallway.item1.locate(330,300)
@@ -441,13 +473,17 @@ hallway.item2.resize(200)
 hallway.item2.locate(1000, 300)
 
 
-hallway.item3 = new MoveRoom_Print(hallway, 'item3', '협재.png', room2, '협재방으로 들어왔다!')
+hallway.item3 = new MoveRoom_Print(hallway, 'item3', '협재.png', room3, '협재방으로 들어왔다!')
 hallway.item3.resize(150)
 hallway.item3.locate(500,300)
 
 hallway.item4 = new MoveRoom(hallway, 'item4', '1층화살표.png', living_room)
 hallway.item4.resize(100)
 hallway.item4.locate(150, 300)
+
+hallway.item5 = new MoveRoom_Print(hallway, 'item5', '한라봉.png',room3,  '한라봉방으로 들어왔다.')
+hallway.item5.resize(150)
+hallway.item5.locate(770,300)
 
 living_room.item1 = new Object(living_room, 'item1', '소주+생선.png')
 living_room.item1.resize(300)
@@ -465,7 +501,7 @@ living_room.item2.onClick = function()
     printMessage('왠 종이냐...')
 }
 
-living_room.floor = new MoveRoom_Print(living_room, 'floor', '2층아이콘.png', hallway, '2층으로 올라왔다..!') 
+living_room.floor = new MoveRoom_Print(living_room, 'floor', '2층아이콘.png', hallway, '2층으로 올라왔다..!')
 living_room.floor.resize(300)
 living_room.floor.locate(70,650)
 

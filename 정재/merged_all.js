@@ -124,29 +124,10 @@ function MoveRoom_Print(room, name, image, connectedTo, message) {
 
 MoveRoom_Print.prototype = new MoveRoom()
 
-MoveRoom_Print.member('onClick', function(){
+MoveRoom_Print.member('onClick', function() {
     Game.move(this.connectedTo)
     printMessage(this.message)
 })
-
-////// MoveRoom_Hide Definition
-function MoveRoom_Hide(room, name, image, connectedTo, message, hide1) {
-    MoveRoom_Print.call(this, room, name, image, connectedTo, message)
-    this.hide1 = hide1
-}
-
-MoveRoom_Hide.prototype = new MoveRoom_Print()
-
-MoveRoom_Hide.member('onClick', function(){
-    Game.move(this.connectedTo)
-    printMessage(this.message)
-    this.id.hide()
-    this.hide1.hide()
-})
-
-
-
-
 
 
 /////// Item Definition
@@ -161,6 +142,19 @@ Item.prototype = new Object()
 })
 Item.member('isHanded', function(){
     return Game.handItem() == this.id
+})
+
+///// Item_Print Definition
+function Item_Print(room, name, image, message) {
+  Item.call(this, room, name, image)
+}
+
+// inherited from Item
+Item_Print.prototype = new Item()
+
+Item_Print.member('onClick', function() {
+  this.id.pick()
+  printMessage(message)
 })
 
 ///// Conversation Definition
@@ -179,7 +173,7 @@ Conversation.member('onClick', function() {
 })
 
 
-//////// Sidetable Definition
+//////// LockedObj Definition
 function Sidetable(room, name, closedImage, openedImage, connectedTo){
 	Object.call(this, room, name, closedImage)
 
@@ -247,20 +241,19 @@ Drawer.member('onClose', function(){
 })
 
 //////// Keypad Definition
-function Keypad(room, name, image, password, callback, type){
+function Keypad(room, name, image, password, callback){
     Object.call(this, room, name, image)
 
     // Keypad properties
     this.password = password
     this.callback = callback
-    this.type = type
 
  }
  // inherited from Object
  Keypad.prototype = new Object()
 
  Keypad.member('onClick', function(){
-	showKeypad(this.type, this.password, this.callback)
+	showKeypad('number', this.password, this.callback)
 })
 
 //////// DoorLock Definition
@@ -346,11 +339,12 @@ room1_drawerview = new Room('room1_drawerview', 'Room1_drawerview.png')
 
 
 //시장
-olle_ent = new Room('olle_ent', '올래입구.png') // 시장입구
+olle_ent1 = new Room('olle_ent1', '올래입구.png') // 집-시장 연결
 market = new Room('market', '시장 안.PNG') // 시장
 bean_shop = new Room('bean_shop', '콩나물 가게.png') // 콩나물 가게
 gift_shop = new Room('gift_shop', '기념품 가게.jpg') // 기념품 가게
 fish_diner = new Room('fish_diner', '갈치 식당.jpg') // 갈치 식당
+olle_ent2 = new Room('olle_ent2', '올래입구.png') // 시장-공항 연결
 
 //공항
 airport = new Room('airport', '공항.png')
@@ -510,11 +504,7 @@ room1_tvview.downarrow.locate(610, 660)
 
 room1_tvview.downarrow.onClick = function(){
 	Game.move(room1_rightview)
-    room1_tvview.tv_off.setSprite('tv_off.png')
-    room1_tvview.icon_note.hide()
-    room1_tvview.icon_find.hide()
-    room1_tvview.todo.hide()
-	room1_tvview.map.hide()
+	room1_tvview.tv_off.setSprite('tv_off.png')
 }
 
 //티비
@@ -530,8 +520,7 @@ room1_tvview.tv_off.onClick = function(){
 	}
 	else{
 		this.id.setSprite('tv_error.png')
-        printMessage('휴대폰을 연결해봐야겠다.')
-
+		printMessage('휴대폰을 연결해봐야겠다.')
 	}
 }
 
@@ -625,38 +614,30 @@ room1_drawerview.note.onClick = function(){
 
 
 
-////////// 친구방 //////////
-
-//캐비넷
-f_room.cabinet_closed = new Door(f_room, 'cabinet_closed', 'cabinet_closed.png', 'cabinet_opened.png')
+///// 친구방
+f_room.cabinet_closed = new Object(f_room, 'cabinet_closed', 'cabinet_closed.png')
 f_room.cabinet_closed.resize(180)
 f_room.cabinet_closed.locate(635, 400)
-f_room.cabinet_closed.lock()
-
 
 f_room.cabinet_closed.onClick = function()
 {
-	if (!this.id.isLocked() && this.id.isClosed()){
-		this.id.open()
-		this.id.locate(642, 401)
-		f_room.keypad_front.hide()
-	    f_room.carkey.show()
-	}
-	else if (this.id.isOpened()){}
+	this.id.setSprite('cabinet_opened.png')
+	this.id.locate(642, 401)
+	f_room.keypad_front.hide()
+	f_room.carkey.show()
 }
 
-//차키
 f_room.carkey = new Item(f_room, 'carkey', 'carkey.png')
 f_room.carkey.resize(30)
 f_room.carkey.locate(670, 409)
 f_room.carkey.hide()
 
-//캐비넷 키패드
-f_room.keypad_front = new DoorLock(f_room, 'keypad_front', 'keypad_front.png', '0116', f_room.cabinet_closed, 'number', '잠금이 풀렸다')
+f_room.keypad_front = new Keypad(f_room, 'keypad_front', 'keypad_front.png', '0116', function(){
+	printMessage('잠금이 풀렸다')
+})
 f_room.keypad_front.resize(23)
 f_room.keypad_front.locate(667, 400)
 
-//망치
 f_room.hammer = new Item(f_room, 'hammer', '망치.png')
 f_room.hammer.resize(70)
 f_room.hammer.locate(300, 600)
@@ -676,7 +657,6 @@ f_room.calender.locate(900, 300)
 f_room.calender.onClick = function() {
     showImageViewer('달력_확대.png', '')
 }
-
 
 //문
 f_room.door = new Door(f_room, 'door', '방문_닫.png', '방문_열.png', hallway)
@@ -782,25 +762,48 @@ laundry.washer = new Object(laundry, 'washer', '세탁기_닫.png')
 laundry.washer.resize(300)
 laundry.washer.locate(960, 460)
 
+//바지
+laundry.pants = new Object(laundry, 'pants', '바지.png')
+laundry.pants.resize(200)
+laundry.pants.locate(1000, 500)
+laundry.pants.hide()
+
 laundry.washer.onClick = function(){
     if(f_room.hammer.isHanded()){
-        laundry.wallet.show()
-        laundry.washer.setSprite('세탁기_열.png')
-        printMessage('세탁기에서 지갑을 찾았다!')}
+      laundry.pants.show()
+      printMessage("어제 입은 바지다")
+      //laundry.wallet.show()
+      laundry.washer.setSprite('세탁기_열.png')
+      //printMessage('세탁기에서 지갑을 찾았다!')
+    }
     else{
-        printMessage('단단하게 잠겨있는데.. 부술것 없나..')
+      printMessage('단단하게 잠겨있는데.. 부술것 없나..')
     }
 }
 
+laundry.pants.onClick = function() {
+  laundry.wallet.show()
+  printMessage('바지 안에서 지갑이 떨어졌다!')
+}
+
 //지갑
-laundry.wallet = new Wallet(laundry, 'wallet', '지갑_열.png')
+//laundry.wallet = new Wallet(laundry, 'wallet', '지갑_열.png')
+laundry.wallet = new Item_Print(laundry, 'wallet', '지갑_열.png', '지갑 안에 기념품을 산 영수증이 들어있다..!')
 laundry.wallet.resize(100)
 laundry.wallet.locate(800, 600)
 laundry.wallet.hide()
+/*
 Wallet.member('onClick',function(){
     this.id.pick()
     market.move3.show()
-})
+})*/
+
+laundry.wallet.onClick = function() {
+  laundry.wallet.pick()
+  market.move3.show()
+  printMessage('지갑 안에 기념품을 산 영수증이 들어있다..!')
+}
+
 laundry.wallet.setDescription('기념품을 산 영수증이 들어있네..!')
 
 
@@ -808,33 +811,19 @@ laundry.wallet.setDescription('기념품을 산 영수증이 들어있네..!')
 
 ///// 마당
 // 집이동
-//
 ground.house=new MoveRoom_Print(ground, 'house', '집.png',living_room,'집으로 다시 들어왔다.')
 ground.house.resize(850)
 ground.house.locate(680,355)
 
 
-//시장이동버튼
-ground.goto_market = new MoveRoom_Hide(ground, 'goto_market', '시장버튼.png', olle_ent, '올레시장 입구로 왔다.', ground.goto_airport)
-ground.goto_market.locate(500,410)
-ground.goto_market.hide()
-
-//공항이동버튼
-ground.goto_airport = new MoveRoom_Hide(ground, 'goto_airport', '공항버튼.png', airport, '공항으로 왔다!', ground.goto_market)
-ground.goto_airport.locate(730,410)
-ground.goto_airport.hide()
-
-
-//자동차
-ground.car = new Object(ground, 'car', '자동차.png')
+//시장이동
+ground.car=new Object(ground,'car','자동차.png')
 ground.car.resize(350)
 ground.car.locate(380,630)
 
 ground.car.onClick = function(){
     if(f_room.carkey.isHanded()){
-        ground.goto_airport.show()
-        ground.goto_market.show()
-    }
+        Game.move(olle_ent1)}
     else{
         printMessage('자동차키가 필요할 것 같은데..')
     }
@@ -846,33 +835,19 @@ ground.car.onClick = function(){
 ///////// Market
 
 ///// 올래 시장(집-시장)
-// 시장들어가기
-olle_ent.ent=new MoveRoom_Print(olle_ent, 'ent', '올래간판.png',market,'시장 안으로 들어왔다')
-olle_ent.ent.resize(1200)
-olle_ent.ent.locate(680,370)
+// 시장입구
+olle_ent1.ent=new MoveRoom_Print(olle_ent1, 'ent', '올래간판.png',market,'시장 안으로 들어왔다')
+olle_ent1.ent.resize(1200)
+olle_ent1.ent.locate(680,370)
 
-// 집이동버튼
-olle_ent.goto_home=new MoveRoom_Hide(olle_ent,'goto_home','집버튼.png',ground,'집으로 왔다!', olle_ent.goto_airport)
-olle_ent.goto_home.locate(500,410)
-olle_ent.goto_home.hide()
+// 자동차 (집)
+olle_ent1.car=new Object(olle_ent1,'car','자동차.png')
+olle_ent1.car.resize(550)
+olle_ent1.car.locate(900,630)
 
-//공항이동버튼
-olle_ent.goto_airport=new MoveRoom_Hide(olle_ent,'goto_airport','공항버튼.png',airport,'공항으로 왔다!', olle_ent.goto_home)
-olle_ent.goto_airport.locate(730,410)
-olle_ent.goto_airport.hide()
-
-
-
-// 자동차
-olle_ent.car=new Object(olle_ent,'car','자동차.png')
-olle_ent.car.resize(550)
-olle_ent.car.locate(900,630)
-
-olle_ent.car.onClick = function(){
+olle_ent1.car.onClick = function(){
     if(f_room.carkey.isHanded()){
-        olle_ent.goto_airport.show()
-        olle_ent.goto_home.show()
-        }
+        Game.move(ground)}
     else{
         printMessage('자동차키가 필요할 것 같은데..')
     }
@@ -880,6 +855,25 @@ olle_ent.car.onClick = function(){
 
 
 
+
+///// 올래 시장(시장-공항)
+// 시장입구
+olle_ent2.ent=new MoveRoom_Print(olle_ent2, 'ent', '올래간판.png',market,'시장 안으로 들어왔다')
+olle_ent2.ent.resize(1200)
+olle_ent2.ent.locate(680,370)
+
+//자동차(공항)
+olle_ent2.car=new Object(olle_ent2,'car','자동차.png')
+olle_ent2.car.resize(550)
+olle_ent2.car.locate(900,630)
+
+olle_ent2.car.onClick = function(){
+    if(f_room.carkey.isHanded()){
+        Game.move(airport)}
+    else{
+        printMessage('자동차키가 필요할 것 같은데..')
+    }
+}
 
 
 
@@ -911,7 +905,7 @@ market.move3.hide()
 
 
 // 시장 입구로 이동.
-market.move4 = new MoveRoom(market, 'move4', '시장 입구 이동.png', olle_ent)
+market.move4 = new MoveRoom(market, 'move4', '시장 입구 이동.png', olle_ent2)
 market.move4.resize(150)
 market.move4.locate(730, 600)
 
@@ -1062,7 +1056,7 @@ gift_shop.toMarket.locate(150, 400)
 // =======================================================================================================================
 ///////// Airport
 //승무원
-airport.crew = new Object(airport, 'crew', '승무원.png')
+airport.crew=new Object(airport,'crew','승무원.png')
 airport.crew.resize(100)
 airport.crew.locate(1060, 420)
 
@@ -1074,33 +1068,10 @@ airport.crew.onClick = function(){
     }
 }
 
-// 집이동버튼
-airport.goto_home = new MoveRoom_Hide(airport, 'goto_home', '집버튼.png', ground, '집으로 왔다!', airport.goto_market)
-airport.goto_home.locate(500,410)
-airport.goto_home.hide()
-
-
-//시장이동버튼
-airport.goto_market = new MoveRoom_Hide(airport, 'goto_market', '시장버튼.png', olle_ent, '시장으로 왔다!', airport.goto_home)
-airport.goto_market.locate(730,410)
-airport.goto_market.hide()
-
-
-
-
-//화살표
-airport.togo=new Object(airport,'togo','arrow_left.png')
-airport.togo.resize(270)
-airport.togo.locate(150,600)
-
-airport.togo.onClick = function(){
-    airport.goto_home.show()
-    airport.goto_market.show()
-}
-
-
-
-
+// 시장으로 이동.
+airport.toMarket = new MoveRoom(airport, 'toMarket', '화살표.png', market)
+airport.toMarket.resize(100)
+airport.toMarket.locate(150, 600)
 
 
 
