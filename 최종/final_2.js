@@ -423,16 +423,17 @@ room1_sidetableview.keypad2_closed.resize(150)
 room1_sidetableview.keypad2_closed.locate(415, 283)
 
 // 휴대폰
-room1_sidetableview.phone = new Item(room1_sidetableview, 'phone', '핸드폰.png')
+//room1_sidetableview.phone = new Item(room1_sidetableview, 'phone', '핸드폰.png')
+room1_sidetableview.phone = new Item_Print(room1_sidetableview, 'phone', '핸드폰.png', '엥? 내 휴대폰이 왜 여기에 있지?')
 room1_sidetableview.phone.resize(100)
 room1_sidetableview.phone.locate(343, 340)
 room1_sidetableview.phone.hide()
 room1_sidetableview.phone.setDescription('휴대폰을 어디에 사용할 수 있을까..?')
 
-room1_sidetableview.phone.onClick = function(){
+/*room1_sidetableview.phone.onClick = function(){
 	printMessage('엥? 내 휴대폰이 왜 여기에 있지?')
 	this.id.pick()
-}
+}*/
 room1_sidetableview.phone.setDescription("화면이 안켜진다.")
 
 // 이동 화살표
@@ -621,7 +622,7 @@ f_room.cabinet_closed.onClick = function()
 }
 
 // 차키
-f_room.carkey = new Item(f_room, 'carkey', 'carkey.png')
+f_room.carkey = new Item_Print(f_room, 'carkey', 'carkey.png', '차 키를 주웠다')
 f_room.carkey.resize(30)
 f_room.carkey.locate(670, 409)
 f_room.carkey.hide()
@@ -632,7 +633,7 @@ f_room.keypad_front.resize(23)
 f_room.keypad_front.locate(667, 400)
 
 // 망치
-f_room.hammer = new Item(f_room, 'hammer', '망치.png')
+f_room.hammer = new Item_Print(f_room, 'hammer', '망치.png', '망치를 주웠다! 이걸 어디에 쓰지...?')
 f_room.hammer.resize(70)
 f_room.hammer.locate(300, 600)
 
@@ -641,7 +642,8 @@ f_room.picture = new Object(f_room, 'picture', '액자사진.png')
 f_room.picture.resize(70)
 f_room.picture.locate(250, 300)
 f_room.picture.onClick = function() {
-   printMessage('제니 사진이 있다..')
+   printMessage('제니 사진이 있다 예쁘다...')
+   showImageViewer('액자사진.png', '')
 }
 
 // 달력
@@ -916,6 +918,7 @@ ground.goto_airport.hide()
 ground.goto_airport.onClick = function(){
     if (fish_diner.passport.isPicked() && gift_shop.camera.isPicked() && bean_shop.airpods.isPicked() && laundry.wallet.isPicked() && room1_sidetableview.phone.isPicked()){
       Game.move(airport)
+      printMessage('후... 빨리 가자!')
       ground.goto_market.hide()
       ground.goto_airport.hide()
     }
@@ -971,6 +974,7 @@ olle_ent.goto_home.onClick = function(){
 olle_ent.goto_airport.onClick = function(){
   if (fish_diner.passport.isPicked() && gift_shop.camera.isPicked() && bean_shop.airpods.isPicked() && laundry.wallet.isPicked() && room1_sidetableview.phone.isPicked()){
     Game.move(airport)
+    printMessage('후... 빨리 가자!')
     olle_ent.goto_home.hide()
     olle_ent.goto_airport.hide()
   }
@@ -978,19 +982,6 @@ olle_ent.goto_airport.onClick = function(){
     printMessage('아직 못 찾은 물건이 있어!')
   }
 }
-
-/*
-ground.goto_airport.onClick = function(){
-    if (fish_diner.passport.isPicked() && gift_shop.camera.isPicked() && bean_shop.airpods.isPicked() && laundry.wallet.isPicked() && room1_sidetableview.phone.isPicked()){
-      Game.move(airport)
-      ground.goto_market.hide()
-      ground.goto_airport.hide()
-    }
-    else{
-      printMessage('아직 못 찾은 물건이 있어!')
-    }
-
-}*/
 
 // 자동차
 olle_ent.car = new Object(olle_ent, 'car', '자동차.png')
@@ -1059,7 +1050,7 @@ market.move7.locate(640, 600)
 
 /////// 콩나물 가게 ///////
 // 에어팟
-bean_shop.airpods = new Item(bean_shop, 'airpods', '에어팟.png')
+bean_shop.airpods = new Item_Print(bean_shop, 'airpods', '에어팟.png', '뭐야 에어팟이 왜 여기에 있지...?')
 bean_shop.airpods.resize(40)
 bean_shop.airpods.locate(500, 400)
 
@@ -1086,7 +1077,7 @@ fish_diner.owner2.locate(950, 270)
 fish_diner.owner2.hide()
 
 // 여권 생성
-fish_diner.passport = new Item(fish_diner, 'passport', '여권.jpg')
+fish_diner.passport = new Item_Print(fish_diner, 'passport', '여권.jpg', '(후... 내 여권 ㅠㅠ) 정말 감사합니다!!')
 fish_diner.passport.resize(30)
 fish_diner.passport.locate(1000, 285)
 fish_diner.passport.hide()
@@ -1096,7 +1087,7 @@ fish_diner.conv1 = new Conversation(fish_diner, 'conv1', '식당 주인 대화1.
 
 // 퀴즈1 정답 키패드 생성
 fish_diner.quiz1 = new Keypad(fish_diner, 'quiz1', '퀴즈1.png', '709', function(){
-   printMessage('맞아맞아 709호였지 금방 다녀올게 퀴즈라도 풀고 있어~')
+   printMessage('맞아맞아 709호였지~ 금방 다녀올게 퀴즈라도 풀고 있어~~')
    fish_diner.owner.hide()
    fish_diner.quiz1.hide()
    fish_diner.quiz2.show()
@@ -1125,7 +1116,7 @@ fish_diner.owner.onClick = function() {
 fish_diner.conv1.onClick = function() {
    fish_diner.conv1.hide()
    fish_diner.quiz1.show()
-   showImageViewer("퀴즈1.png", "")
+   //showImageViewer("퀴즈1.png", "")
 }
 
 // 시장으로 이동.
@@ -1143,8 +1134,14 @@ gift_shop.staff = new Object(gift_shop, 'staff', '기념품 가게 직원.png')
 gift_shop.staff.resize(170)
 gift_shop.staff.locate(700, 500)
 
+// 카메라 가져온 직원 생성
+gift_shop.staff2 = new Object(gift_shop, 'staff2', '기념품 가게 직원.png')
+gift_shop.staff2.resize(170)
+gift_shop.staff2.locate(700, 500)
+gift_shop.staff2.hide()
+
 // 카메라 생성
-gift_shop.camera = new Item(gift_shop, 'camera', '카메라.png')
+gift_shop.camera = new Item_Print(gift_shop, 'camera', '카메라.png', '(다행이다 내 카메라...) 감사합니다! ㅠㅠ')
 gift_shop.camera.resize(100)
 gift_shop.camera.locate(630, 500)
 gift_shop.camera.hide()
@@ -1171,6 +1168,7 @@ gift_shop.conv1.onClick = function() {
 gift_shop.conv2.onClick = function() {
   gift_shop.conv2.hide()
   gift_shop.camera.show()
+  gift_shop.staff2.show()
   gift_shop.conv3.show()
 }
 
