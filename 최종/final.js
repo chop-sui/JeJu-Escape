@@ -498,6 +498,7 @@ room1_tvview.tv.onClick = function(){
 		room1_tvview.todo.hide()
         room1_tvview.map.hide()
         printMessage('휴대폰이 TV랑 연결됐다')
+        room1_sidetableview.phone.setDescription('번역기 앱이 깔려있다.')
 	}
 }
 
